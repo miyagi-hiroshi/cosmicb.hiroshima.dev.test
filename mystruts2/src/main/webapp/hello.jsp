@@ -18,7 +18,7 @@
 			<s:textfield name="goodby.company" label="所属／会社"/>
 			<s:textfield name="goodby.name" label="お名前"/>
 			<s:textfield name="goodby.num" type="number" label="人数" max="10" min="1" value="1"/>
-			<s:submit value="受 付aaa"/>
+			<s:submit value="受 付"/>
 
                 <!-- <div class="textbox">
                         <label class="ef">

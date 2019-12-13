@@ -10,7 +10,9 @@
             <result name="success">/hello.jsp</result>
         </action>
         <action name="reg" class="net.supportdoc.helloworld.action.HelloAction" method="regData">
+            <exception-mapping exception="java.sql.exception" result="error" />
             <result name="success">/hello.jsp</result>
+            <result name="error"> /error.jsp </result>
         </action>
         <action name="testa" class="net.supportdoc.helloworld.action.HelloAction" method="testMethod">
             <result name="success">/hello.jsp</result>

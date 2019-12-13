@@ -17,7 +17,7 @@ public abstract class BaseAction extends ActionSupport {
     String password = "19brnZh77";
     String dbUrl = null;
 
-    private Connection conn;
+    public Connection conn;
     public String execClassName;
 
     
@@ -37,26 +37,8 @@ public abstract class BaseAction extends ActionSupport {
         return "success";
     }
 
-    
-    /** 
-     * @param display_Uketsuke(
-     */
     abstract public void testDeail(Connection conn);
-
-    public void display_Uketsuke() {
-        
-
-        //MySQLへ接続する
-        connectDb();
-
-        //INSERTで名前、会社名、人数、受付時間を登録
-
-
-        //登録済みを示すトースト(ポップアップ)表示する
-
-    }
     
-
 
     /** MySQL接続
      * @return Boolean true=接続OK, false=接続NG
@@ -93,7 +75,7 @@ public abstract class BaseAction extends ActionSupport {
      * @param num　人数
      * @return Boolean true=処理成功, false=処理失敗
      */
-    public Boolean insertDetail(String company, String name, String num) {
+    public Boolean insertDb(String company, String name, String num) {
 
         String sql = "insert into houmon SET " + "company = ?, " + "name = ?, " + "num = ?, "
                 + "in_date = CURRENT_TIMESTAMP();";
@@ -131,7 +113,7 @@ public abstract class BaseAction extends ActionSupport {
      * @param id 管理用id
      * @return boolean true=処理成功, false=処理失敗
      */
-    public boolean updateDetail(String houmon, int id) {
+    public boolean updateDb(String houmon, int id) {
 
         String sql = "update houmon SET " + "dest = ?, " + "out_date = CURRENT_TIMESTAMP() " + "where id = ?;";
 
@@ -166,7 +148,7 @@ public abstract class BaseAction extends ActionSupport {
      * @param id 管理用id
      * @return boolean true=処理成功, false=処理失敗
      */
-    public boolean deleteDetail(int id) {
+    public boolean deleteDb(int id) {
 
         String sql = "delete from houmon where id = ?;";
 
@@ -210,6 +192,14 @@ public abstract class BaseAction extends ActionSupport {
      */
     public void setExecClassName(String execClassName) {
         this.execClassName = execClassName;
+    }
+
+    public Connection getConn() {
+        return conn;
+    }
+
+    public void setConn(Connection conn) {
+        this.conn = conn;
     }
 
 }

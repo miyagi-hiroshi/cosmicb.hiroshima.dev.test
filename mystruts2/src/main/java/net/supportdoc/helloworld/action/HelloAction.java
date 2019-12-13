@@ -2,24 +2,26 @@ package net.supportdoc.helloworld.action;
 
 import net.supportdoc.helloworld.model.HelloModel;
 import net.supportdoc.helloworld.model.GoodbyModel;
-
 import java.sql.Connection;
-
-//import com.opensymphony.xwork2.ActionSupport;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import net.supportdoc.helloworld.action.BaseAction;
 
 
 public class HelloAction extends BaseAction {
 
-    //private static final long serialVersionUID = -2568853932910163422L;
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private HelloModel hello;
     private GoodbyModel goodby;
-    private BaseAction baseA;
     
     public HelloAction() {
 
         super.execClassName = "HelloAction";
+
         System.out.println("HelloActionコンストラクタ");
     }
 
@@ -36,8 +38,6 @@ public class HelloAction extends BaseAction {
     /** 
      * @return String
      */
-    // private SqlModel sql;
-
     public String create() {
 
         hello = new HelloModel();
@@ -56,24 +56,55 @@ public class HelloAction extends BaseAction {
      */
     public String regData() {
 
-        //baseA = new BaseAction();
-
         boolean ret;
         String name = goodby.getName();
         String company = goodby.getCompany();
         String num = goodby.getNum();
 
         //Azure for MySQLへ接続
-        ret = baseA.connectDb();
+        ret = connectDb();
         if (ret == false){
             System.exit(0);
         }
 
         //insertクエリを投げる
-        ret = baseA.insertDetail(company, name, num);
-        return "success";
+        try {
+            String sql = "insert into houmon SET " + "company = ?, " + "name = ?, " + "num = ?, "
+            + "in_date = CURRENT_TIMESTAMP();";
+
+            conn.setAutoCommit(false);
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, company);
+            ps.setString(2, name);
+            ps.setString(3, num);
+
+            ps.executeUpdate();
+            conn.commit();
+
+        } catch (SQLException e) {
+            System.out.println("Insert処理エラー：" + e);
+
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("MySQLのクローズ処理に失敗しました。");
+                }
+            }
+        }
+
+
+            return "success";
 
     }
+
+
+
+
+
+
 
     
     /** 
@@ -111,16 +142,5 @@ public class HelloAction extends BaseAction {
         this.goodby = goodby;
     }
 
-
-
-    // public SqlModel getSql() {
-    // System.out.println("【HelloAction:getSql】" + sql);
-    // return sql;
-    // }
-
-    // public void setSql(SqlModel sql) {
-    // System.out.println("【HelloAction:setSql】" + sql);
-    // this.sql = sql;
-    // }
 
 }
