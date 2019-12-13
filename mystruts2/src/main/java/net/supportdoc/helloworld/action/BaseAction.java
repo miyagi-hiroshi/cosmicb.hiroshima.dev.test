@@ -191,7 +191,6 @@ public abstract class BaseAction extends ActionSupport {
 
 
 
-        return ResultSet;
 
     }
 
