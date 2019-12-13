@@ -100,12 +100,6 @@ public class HelloAction extends BaseAction {
 
     }
 
-
-
-
-
-
-
     
     /** 
      * @return HelloModel
