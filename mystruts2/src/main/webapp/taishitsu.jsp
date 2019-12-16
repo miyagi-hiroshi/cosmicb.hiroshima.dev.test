@@ -13,7 +13,7 @@
             <h1>管理画面</h1>
 
             ステータス：<br>
-            <s:iterator value="DTOList">
+            <s:iterator value="dtoList">
                 <!-- <s:property value="target"/> -->
                 <s:property value="id"/> 
                 <s:property value="company"/>

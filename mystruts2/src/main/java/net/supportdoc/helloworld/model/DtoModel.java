@@ -1,8 +1,5 @@
 package net.supportdoc.helloworld.model;
 
-import java.sql.Date;
-import java.util.Calendar;
-
 public class DtoModel {
     
     private String company, name,dest;

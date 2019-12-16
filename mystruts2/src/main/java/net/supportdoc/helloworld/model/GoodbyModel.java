@@ -28,47 +28,6 @@ public class GoodbyModel {
         // dbData.add("2019/12/06 15:00:00,入室中,しらはた");
         // dbData.add("2019/12/06 18:00:00,入室中,しらはた");
 
-        // Connection conn = null;
-        // String url = "jdbc:mysql://localhost:3306/cosHiroshima?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9:00&rewriteBatchedStatements=true";
-        // String user = "root";
-        // String password = "19brnZh77";
-
-
-
-        // try {
-        //     Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-        //     //MySQLへ接続
-        //     conn =  DriverManager.getConnection(url, user, password);
-        //     System.out.println("MySQLへ接続できました。");
-        //     System.out.println("--------------------");
-
-        //     if (name != null && num != null) {
-        //         Statement stmt = conn.createStatement();
-
-        //         String query ="insert into houmon set company='" + company +"', name='" + name + "', num=" + num + ";";
-        //         System.out.println(query);
-        //         stmt.executeUpdate(query);
-        //     } else {
-        //         System.out.print("Company=" + company + ", Name=" + name + ", Num=" + num);
-        //         System.out.println("　のため、登録を中止しました。");
-        //     }
-
-        //     conn.close();
-
-        // } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e){
-        //     System.out.println("JDBCのドライバロードに失敗しました。");
-        // } catch (SQLException e) {
-        //     System.out.println("MySQLに接続できませんでした。");
-        // } finally {
-        //     if (conn != null) {
-        //         try {
-        //             conn.close();
-        //         } catch (SQLException e) {
-        //             System.out.println("MySQLのクローズ処理に失敗しました。");
-        //         }
-        //     }
-        // }
-
     }
 
     public String getReport() {

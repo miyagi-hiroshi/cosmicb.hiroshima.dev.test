@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.time.LocalDateTime;
 import java.util.*;
 
 import net.supportdoc.helloworld.action.BaseAction;
@@ -14,59 +12,68 @@ import net.supportdoc.helloworld.model.DtoModel;
 
 public class ListAction extends BaseAction {
 
-    private DtoModel dto;
-    private List<DtoModel> DTOList = new ArrayList<DtoModel>();
+    private DtoModel dtoM;
+    private List<DtoModel> dtoList;
 
 
     public ListAction() {
 
-
-
     }
 
-    public String inRoomSelect() {
+    public String create() {
 
-        String query;
-        boolean ret;
-        PreparedStatement ps=null;
-        ResultSet rs=null;
-        query = "select * from houmon where out_date='2000/01/01 0:0:0' order by in_date asc";
+        dtoM = new DtoModel();
+        //DTOList = new ArrayList<DtoModel>();
+        //query = "select * from houmon where out_date='2000/01/01 0:0:0' order by in_date asc";
 
         // Azure for MySQLへ接続
-        ret = connectDb();
+        boolean ret = connectDb();
+
+
         if (ret == false) {
             System.exit(0);
         }
+
+        // selectクエリを投げる
+        dtoList = selectDetail("select * from houmon where out_date='2000/01/01 0:0:0' order by in_date asc;");
+
+
+        return "ok";
+
+    }
+
+    public List<DtoModel> selectDetail(String query) {
+
+        dtoList = new ArrayList<DtoModel>();
 
         // selectクエリを投げる
         try {
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
 
-            // ResulktSetからDTOListを作る
+            // ResultSetからDTOListを作る
             while (rs.next()) {
-                dto = new DtoModel();
-                dto.setId(rs.getInt("id"));
-                dto.setCompany(rs.getString("company"));
-                dto.setName(rs.getString("name"));
-                dto.setNum(rs.getInt("num"));
-                dto.setDest(rs.getString("dest"));
-                dto.setIn_date(rs.getString("in_date"));
-                dto.setOut_date(rs.getString("out_date"));
-                DTOList.add(dto);
+                dtoM = new DtoModel();
+                dtoM.setId(rs.getInt("id"));
+                dtoM.setCompany(rs.getString("company"));
+                dtoM.setName(rs.getString("name"));
+                dtoM.setNum(rs.getInt("num"));
+                dtoM.setDest(rs.getString("dest"));
+                dtoM.setIn_date(rs.getString("in_date"));
+                dtoM.setOut_date(rs.getString("out_date"));
+                dtoList.add(dtoM);
             }
 
-            for (int i=0; i< DTOList.size(); i++) {
-                System.out.print(DTOList.get(i).getId() + "\t");
-                System.out.print(DTOList.get(i).getCompany() + "\t");
-                System.out.print(DTOList.get(i).getName() + "\t");
-                System.out.println(DTOList.get(i).getIn_date());
+            //デバッグ用：Listの中を表示させる
+            for (int i=0; i< dtoList.size(); i++) {
+                System.out.print(dtoList.get(i).getId() + "\t");
+                System.out.print(dtoList.get(i).getCompany() + "\t");
+                System.out.print(dtoList.get(i).getName() + "\t");
+                System.out.println(dtoList.get(i).getIn_date());
             }
-
-
 
         } catch (SQLException e) {
-            //System.out.println("SELECT処理エラー：" + e);
+            System.out.println("SELECT処理エラー：" + e);
 
         } finally {
             if (conn != null) {
@@ -80,25 +87,28 @@ public class ListAction extends BaseAction {
             }
         }
 
-        return "ok";
+        return dtoList;
+
 
     }
 
-    public DtoModel getDto() {
-        return dto;
+    public DtoModel getDtoM() {
+        return dtoM;
     }
 
-    public void setDto(DtoModel dto) {
-        this.dto = dto;
+    public void setDtoM(DtoModel dtoM) {
+        this.dtoM = dtoM;
     }
 
-    public List<DtoModel> getDTOList() {
-        return DTOList;
+    public List<DtoModel> getDtoList() {
+        return dtoList;
     }
 
-    public void setDTOList(List<DtoModel> dTOList) {
-        DTOList = dTOList;
+    public void setDtoList(List<DtoModel> dtoList) {
+        this.dtoList = dtoList;
     }
+
+
 
 
 

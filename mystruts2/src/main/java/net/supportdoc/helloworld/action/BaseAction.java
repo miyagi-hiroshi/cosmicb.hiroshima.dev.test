@@ -21,6 +21,8 @@ public abstract class BaseAction extends ActionSupport {
 
     public Connection conn;
     public String execClassName;
+    public PreparedStatement ps;
+    public ResultSet rs;
 
     
     /** 
@@ -61,6 +63,7 @@ public abstract class BaseAction extends ActionSupport {
         try {
 
             conn = DriverManager.getConnection(url, user, password);
+            System.out.println("MySQLの接続に成功しました。");
             return true;
 
         } catch (SQLException e) {

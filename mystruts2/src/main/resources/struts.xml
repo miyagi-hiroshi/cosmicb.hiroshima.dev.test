@@ -18,7 +18,7 @@
         <action name="testa" class="net.supportdoc.helloworld.action.HelloAction" method="testMethod">
             <result name="success">/hello.jsp</result>
         </action>
-        <action name="exit" class="net.supportdoc.helloworld.action.ListAction" method="inRoomSelect">
+        <action name="exit" class="net.supportdoc.helloworld.action.ListAction" method="create">
             <result name="ok">/taishitsu.jsp</result>
         </action>
 
