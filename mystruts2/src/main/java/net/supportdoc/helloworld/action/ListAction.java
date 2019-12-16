@@ -1,30 +1,32 @@
 package net.supportdoc.helloworld.action;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.*;
-
 import net.supportdoc.helloworld.action.BaseAction;
 import net.supportdoc.helloworld.model.DtoModel;
 
 public class ListAction extends BaseAction {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private DtoModel dtoM;
     private List<DtoModel> dtoList;
 
 
-    public ListAction() {
-
-    }
-
+    
+   
+    /** 
+     * @return String
+     */
     public String create() {
 
         dtoM = new DtoModel();
 
-        // Azure for MySQLへ接続
+        //Azure for MySQLへ接続
         boolean ret = connectDb();
 
 
@@ -36,11 +38,35 @@ public class ListAction extends BaseAction {
         dtoList = selectDetail("select id, company, name, num, in_date, TIMESTAMPDIFF(HOUR, in_date, CURRENT_TIMESTAMP()) AS diff, dest, out_date " + 
                                                     "from houmon where out_date='2000/01/01 0:0:0' order by in_date desc;");
 
-
+        System.out.println("【ListAction.create】success");
         return "ok";
 
     }
 
+    //TODO どうやったらinRoomDataに飛ぶようにできるか考える
+    public void inRoomData(){
+
+        dtoM = new DtoModel();
+
+        // Azure for MySQLへ接続
+        boolean ret = connectDb();
+
+        if (ret == false) {
+            System.exit(0);
+        }
+
+        // selectクエリを投げる
+        dtoList = selectDetail("select id, company, name, num, in_date, TIMESTAMPDIFF(HOUR, in_date, CURRENT_TIMESTAMP()) AS diff, dest, out_date " + 
+                                                    "from houmon where out_date='2000/01/01 0:0:0' order by in_date desc;");
+
+        System.out.println("【ListAction】inRoomData");
+    }
+
+    
+    /** MySQL SELECT発行
+     * @param query クエリ
+     * @return List<DtoModel> 返り値：DTO
+     */
     public List<DtoModel> selectDetail(String query) {
 
         dtoList = new ArrayList<DtoModel>();
@@ -92,6 +118,12 @@ public class ListAction extends BaseAction {
 
     }
 
+    
+    /** 
+     * @param id ID
+     * @param dest 訪問先
+     * @return Boolean
+     */
     public Boolean updateDetail(String id, String dest) {
     
         String query = "update houmon set dest = ?, out_time= CURRENT_TIMESTAMP() where id=?;";
@@ -124,18 +156,34 @@ public class ListAction extends BaseAction {
         return true;
     }
 
+    
+    /** 
+     * @return DtoModel
+     */
     public DtoModel getDtoM() {
         return dtoM;
     }
 
+    
+    /** 
+     * @param dtoM
+     */
     public void setDtoM(DtoModel dtoM) {
         this.dtoM = dtoM;
     }
 
+    
+    /** 
+     * @return List<DtoModel>
+     */
     public List<DtoModel> getDtoList() {
         return dtoList;
     }
 
+    
+    /** 
+     * @param dtoList
+     */
     public void setDtoList(List<DtoModel> dtoList) {
         this.dtoList = dtoList;
     }
