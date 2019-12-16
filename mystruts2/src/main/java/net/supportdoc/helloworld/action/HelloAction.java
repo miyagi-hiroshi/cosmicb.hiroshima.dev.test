@@ -69,12 +69,12 @@ public class HelloAction extends BaseAction {
 
         //insertクエリを投げる
         try {
-            String sql = "insert into houmon SET " + "company = ?, " + "name = ?, " + "num = ?, "
+            String query = "insert into houmon SET " + "company = ?, " + "name = ?, " + "num = ?, "
             + "in_date = CURRENT_TIMESTAMP();";
 
             conn.setAutoCommit(false);
 
-            PreparedStatement ps = conn.prepareStatement(sql);
+            PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, company);
             ps.setString(2, name);
             ps.setString(3, num);

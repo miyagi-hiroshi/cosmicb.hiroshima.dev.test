@@ -73,41 +73,6 @@ public abstract class BaseAction extends ActionSupport {
 
     }
 
-    /** 
-     * @param houmon 訪問先
-     * @param id 管理用id
-     * @return boolean true=処理成功, false=処理失敗
-     */
-    public boolean updateDb(String houmon, int id) {
-
-        String sql = "update houmon SET " + "dest = ?, " + "out_date = CURRENT_TIMESTAMP() " + "where id = ?;";
-
-        try {
-            conn.setAutoCommit(false);
-
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, houmon);
-            ps.setInt(2, id);
-
-            ps.executeUpdate();
-            conn.commit();
-            return true;
-
-        } catch (SQLException e) {
-            System.out.println("update処理エラー" + e);
-            return false;
-
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    System.out.println("MySQLのクローズ処理に失敗しました。");
-                }
-            }
-        }
-    }
-
     
     /** 
      * @param id 管理用id

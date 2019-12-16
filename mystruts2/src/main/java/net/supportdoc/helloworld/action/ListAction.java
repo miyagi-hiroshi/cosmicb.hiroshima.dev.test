@@ -23,8 +23,6 @@ public class ListAction extends BaseAction {
     public String create() {
 
         dtoM = new DtoModel();
-        //DTOList = new ArrayList<DtoModel>();
-        //query = "select * from houmon where out_date='2000/01/01 0:0:0' order by in_date asc";
 
         // Azure for MySQLへ接続
         boolean ret = connectDb();
@@ -35,7 +33,8 @@ public class ListAction extends BaseAction {
         }
 
         // selectクエリを投げる
-        dtoList = selectDetail("select * from houmon where out_date='2000/01/01 0:0:0' order by in_date asc;");
+        dtoList = selectDetail("select id, company, name, num, in_date, TIMESTAMPDIFF(HOUR, in_date, CURRENT_TIMESTAMP()) AS diff, dest, out_date " + 
+                                                    "from houmon where out_date='2000/01/01 0:0:0' order by in_date desc;");
 
 
         return "ok";
@@ -61,6 +60,7 @@ public class ListAction extends BaseAction {
                 dtoM.setDest(rs.getString("dest"));
                 dtoM.setIn_date(rs.getString("in_date"));
                 dtoM.setOut_date(rs.getString("out_date"));
+                dtoM.setDiff(rs.getInt("diff"));
                 dtoList.add(dtoM);
             }
 
@@ -90,6 +90,38 @@ public class ListAction extends BaseAction {
         return dtoList;
 
 
+    }
+
+    public Boolean updateDetail(String id, String dest) {
+    
+        String query = "update houmon set dest = ?, out_time= CURRENT_TIMESTAMP() where id=?;";
+        //insertクエリを投げる
+        try {
+
+            conn.setAutoCommit(false);
+
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, dest);  //訪問先
+            ps.setString(2, id);    //idまたは入室時間どちらか
+
+            ps.executeUpdate();
+            conn.commit();
+
+        } catch (SQLException e) {
+            System.out.println("Update処理エラー：" + e);
+            return false;
+
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("MySQLのクローズ処理に失敗しました。");
+                }
+            }
+        }
+
+        return true;
     }
 
     public DtoModel getDtoM() {
