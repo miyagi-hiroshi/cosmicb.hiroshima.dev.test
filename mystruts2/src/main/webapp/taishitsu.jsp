@@ -9,12 +9,22 @@
 
     </head>
     <body>
-        <h1>管理画面</h1>
+        <s:action name="exit">
+            <h1>管理画面</h1>
 
-        ステータス：<br>
-        <s:iterator value="goodby.dbData" var="target" status="idx">
-            <s:property value="target"/> <br>
-        </s:iterator>
+            ステータス：<br>
+            <s:iterator value="DTOList">
+                <!-- <s:property value="target"/> -->
+                <s:property value="id"/> 
+                <s:property value="company"/>
+                <s:property value="name"/>
+                <s:property value="num"/>
+                <s:property value="in_date"/> <br>
+            </s:iterator>
+
+
+        </s:action>
+        <s:debug />
 
     </body>
 

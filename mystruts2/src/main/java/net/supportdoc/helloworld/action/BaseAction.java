@@ -32,14 +32,14 @@ public abstract class BaseAction extends ActionSupport {
         System.out.println("startMethod:" + execClassName.toString());
 
         connectDb();
-        testDeail(conn);
+        //testDeail(conn);
 
         //終了処理
         System.out.println("endMethod:" + execClassName.toString());
         return "success";
     }
 
-    abstract public void testDeail(Connection conn);
+    //abstract public void testDeail(Connection conn);
     
 
     /** MySQL接続
@@ -70,46 +70,6 @@ public abstract class BaseAction extends ActionSupport {
 
     }
 
-    
-    /** MySQLインサート処理
-     * @param company　会社名
-     * @param name　名前
-     * @param num　人数
-     * @return Boolean true=処理成功, false=処理失敗
-     */
-    public Boolean insertDb(String company, String name, String num) {
-
-        String sql = "insert into houmon SET " + "company = ?, " + "name = ?, " + "num = ?, "
-                + "in_date = CURRENT_TIMESTAMP();";
-
-        try {
-            conn.setAutoCommit(false);
-
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, company);
-            ps.setString(2, name);
-            ps.setString(3, num);
-
-            ps.executeUpdate();
-            conn.commit();
-            return true;
-
-        } catch (SQLException e) {
-            System.out.println("Insert処理エラー：" + e);
-            return false;
-
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    System.out.println("MySQLのクローズ処理に失敗しました。");
-                }
-            }
-        }
-    }
-
-    
     /** 
      * @param houmon 訪問先
      * @param id 管理用id
@@ -180,21 +140,7 @@ public abstract class BaseAction extends ActionSupport {
 
     }
 
-    public List<DTO> selectDb() {
-
-        String sql = "select";
-
-        List<DTO> DTOList = new ArrayList<DTO>();
-
-       
-
-
-
-
-
-    }
-
-    
+     
     /** 
      * @return String
      */
@@ -212,69 +158,4 @@ public abstract class BaseAction extends ActionSupport {
 
 }
 
-public class DTO {
-    private int id;
-    private String company;
-    private String name;
-    private int num;
-    private Date in_date;
-    private Date out_date;
-    private String dest;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getNum() {
-        return num;
-    }
-
-    public void setNum(int num) {
-        this.num = num;
-    }
-
-    public Date getIn_date() {
-        return in_date;
-    }
-
-    public void setIn_date(Date in_date) {
-        this.in_date = in_date;
-    }
-
-    public Date getOut_date() {
-        return out_date;
-    }
-
-    public void setOut_date(Date out_date) {
-        this.out_date = out_date;
-    }
-
-    public String getDest() {
-        return dest;
-    }
-
-    public void setDest(String dest) {
-        this.dest = dest;
-    }
-
-}

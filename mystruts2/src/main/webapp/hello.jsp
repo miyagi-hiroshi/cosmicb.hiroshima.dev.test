@@ -39,13 +39,14 @@
 		名前：<s:property value ="goodby.name" /><br>
         人数：<s:property value ="goodby.num" /><br>
 
-        ステータス：<br>
+        <!-- ステータス：<br>
         <s:iterator value="goodby.dbData" var="target" status="idx">
             <s:property value="target"/> <br>
-        </s:iterator>
+        </s:iterator> -->
 
 
         <s:debug />
+
     </body>
 
 

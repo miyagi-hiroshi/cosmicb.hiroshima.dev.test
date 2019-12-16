@@ -6,6 +6,7 @@
 <struts>
     <constant name="struts.devMode" value="true" />
     <package name="mystruts2" extends="struts-default">
+
         <action name="hello" class="net.supportdoc.helloworld.action.HelloAction" method="create">
             <result name="success">/hello.jsp</result>
         </action>
@@ -17,5 +18,9 @@
         <action name="testa" class="net.supportdoc.helloworld.action.HelloAction" method="testMethod">
             <result name="success">/hello.jsp</result>
         </action>
+        <action name="exit" class="net.supportdoc.helloworld.action.ListAction" method="inRoomSelect">
+            <result name="ok">/taishitsu.jsp</result>
+        </action>
+
     </package>
 </struts>

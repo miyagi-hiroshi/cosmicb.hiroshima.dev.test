@@ -25,15 +25,15 @@ public class HelloAction extends BaseAction {
         System.out.println("HelloActionコンストラクタ");
     }
 
-    public void testDeail(Connection conn){
-        //初期処理
-        System.out.println("startMethod:testDeail");
+    // public void testDeail(Connection conn){
+    //     //初期処理
+    //     System.out.println("startMethod:testDeail");
 
-        hello = new HelloModel();
-        goodby = new GoodbyModel();
-        //終了処理
-        System.out.println("endMethod:testDeail");
-    }
+    //     hello = new HelloModel();
+    //     goodby = new GoodbyModel();
+    //     //終了処理
+    //     System.out.println("endMethod:testDeail");
+    // }
 
     /** 
      * @return String
