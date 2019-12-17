@@ -2,8 +2,8 @@ package net.supportdoc.helloworld.model;
 
 public class DtoModel {
     
-    private String company, name,dest;
-    private int id, num, diff;
+    private String company, name,dest,diff;
+    private int id, num;
     private String in_date, out_date;
 
     public String getCompany() {
@@ -62,11 +62,11 @@ public class DtoModel {
         this.out_date = out_date;
     }
 
-    public int getDiff() {
+    public String getDiff() {
         return diff;
     }
 
-    public void setDiff(int diff) {
+    public void setDiff(String diff) {
         this.diff = diff;
     }
 

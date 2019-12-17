@@ -15,9 +15,7 @@ public class ListAction extends BaseAction {
     private static final long serialVersionUID = 1L;
     private DtoModel dtoM;
     private List<DtoModel> dtoList;
-
-
-    
+   
    
     /** 
      * @return String
@@ -29,13 +27,12 @@ public class ListAction extends BaseAction {
         //Azure for MySQLへ接続
         boolean ret = connectDb();
 
-
         if (ret == false) {
             System.exit(0);
         }
 
         // selectクエリを投げる
-        dtoList = selectDetail("select id, company, name, num, in_date, TIMESTAMPDIFF(HOUR, in_date, CURRENT_TIMESTAMP()) AS diff, dest, out_date " + 
+        dtoList = selectDetail("select id, company, name, num, DATE_FORMAT(in_date,'%m/%d %H:%i') as in_date, TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP(), in_date), '%H:%i') AS diff, dest, out_date " + 
                                                     "from houmon where out_date='2000/01/01 0:0:0' order by in_date desc;");
 
         System.out.println("【ListAction.create】success");
@@ -43,29 +40,10 @@ public class ListAction extends BaseAction {
 
     }
 
-    //TODO どうやったらinRoomDataに飛ぶようにできるか考える
-    public void inRoomData(){
-
-        dtoM = new DtoModel();
-
-        // Azure for MySQLへ接続
-        boolean ret = connectDb();
-
-        if (ret == false) {
-            System.exit(0);
-        }
-
-        // selectクエリを投げる
-        dtoList = selectDetail("select id, company, name, num, in_date, TIMESTAMPDIFF(HOUR, in_date, CURRENT_TIMESTAMP()) AS diff, dest, out_date " + 
-                                                    "from houmon where out_date='2000/01/01 0:0:0' order by in_date desc;");
-
-        System.out.println("【ListAction】inRoomData");
-    }
-
     
     /** MySQL SELECT発行
      * @param query クエリ
-     * @return List<DtoModel> 返り値：DTO
+     * @return List<DtoModel> 返り値：DTOList
      */
     public List<DtoModel> selectDetail(String query) {
 
@@ -86,15 +64,15 @@ public class ListAction extends BaseAction {
                 dtoM.setDest(rs.getString("dest"));
                 dtoM.setIn_date(rs.getString("in_date"));
                 dtoM.setOut_date(rs.getString("out_date"));
-                dtoM.setDiff(rs.getInt("diff"));
+                dtoM.setDiff(rs.getString("diff"));
                 dtoList.add(dtoM);
             }
 
             //デバッグ用：Listの中を表示させる
             for (int i=0; i< dtoList.size(); i++) {
-                System.out.print(dtoList.get(i).getId() + "\t");
-                System.out.print(dtoList.get(i).getCompany() + "\t");
-                System.out.print(dtoList.get(i).getName() + "\t");
+                System.out.print(dtoList.get(i).getId());
+                System.out.print(dtoList.get(i).getCompany());
+                System.out.print(dtoList.get(i).getName());
                 System.out.println(dtoList.get(i).getIn_date());
             }
 
@@ -115,7 +93,6 @@ public class ListAction extends BaseAction {
 
         return dtoList;
 
-
     }
 
     
@@ -126,7 +103,7 @@ public class ListAction extends BaseAction {
      */
     public Boolean updateDetail(String id, String dest) {
     
-        String query = "update houmon set dest = ?, out_time= CURRENT_TIMESTAMP() where id=?;";
+        String query = "update houmon set dest=?, out_time= CURRENT_TIMESTAMP() where id=?;";
         //insertクエリを投げる
         try {
 

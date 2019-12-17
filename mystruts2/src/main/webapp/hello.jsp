@@ -14,11 +14,12 @@
         現在日時は、<s:property value="goodby.sysDate"/> です。 <br>
 
 
-        <s:form action="reg"  method="post">
-			<s:textfield name="goodby.company" label="所属／会社"/>
-			<s:textfield name="goodby.name" label="お名前"/>
+        <s:form action="reg" id="reg_form" name="uketsuke"  metyhod="post">
+			<s:textfield name="goodby.company" label="所属／会社" />
+			<s:textfield name="goodby.name" label="お名前" id="reg_name"/>
 			<s:textfield name="goodby.num" type="number" label="人数" max="10" min="1" value="1"/>
-			<s:submit value="受 付"/>
+            <s:submit value="受 付" onClick="check_submit()"/>
+            
 
                 <!-- <div class="textbox">
                         <label class="ef">
@@ -33,17 +34,36 @@
                 </div>
                 <s:submit name="reg" value="受 付"/> -->
 
-		</s:form>
+        </s:form>
+        
+        <!-- //TODO：おまけ機能・・・入力チェック -->
+        <script>
+            function check_submit(){
+                var company = document.getElementById('reg_form_goodby_company').value
+                var name = document.getElementById('reg_name').value
+                alert('会社名 ' + company + ' 名前　' + name )
+
+                if (name == "") {
+                    // alert("名前が入力されていません");
+                    try {
+                        throw new Error('会社名 ' + company + ' 名前　' + name );
+                    } catch (e) {
+
+                    }
+
+                } else {
+                    var r = confirm("送信してもよろしいですか？");
+                    if (r) {document.uketsuke.submit();}
+                }
+
+            }
+
+       
+        </script>
 		
 		会社名：<s:property value ="goodby.company" /><br>
 		名前：<s:property value ="goodby.name" /><br>
         人数：<s:property value ="goodby.num" /><br>
-
-        <!-- ステータス：<br>
-        <s:iterator value="goodby.dbData" var="target" status="idx">
-            <s:property value="target"/> <br>
-        </s:iterator> -->
-
 
         <s:debug />
 

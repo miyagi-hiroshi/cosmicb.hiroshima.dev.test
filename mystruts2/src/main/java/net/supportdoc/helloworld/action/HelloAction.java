@@ -43,7 +43,6 @@ public class HelloAction extends BaseAction {
         hello = new HelloModel();
         goodby = new GoodbyModel();
 
-
         System.out.println("【HelloAction:create success】");
 
         return "success";
