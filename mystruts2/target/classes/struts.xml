@@ -21,6 +21,9 @@
         <action name="exit" class="net.supportdoc.helloworld.action.ListAction" method="create">
             <result name="ok">/taishitsu.jsp</result>
         </action>
+            <action name="taishitsu" class="net.supportdoc.helloworld.action.ListAction" method="taishitsu">
+            <result name="ok">/taishitsu.jsp</result>
+        </action>
         
     </package>
 </struts>

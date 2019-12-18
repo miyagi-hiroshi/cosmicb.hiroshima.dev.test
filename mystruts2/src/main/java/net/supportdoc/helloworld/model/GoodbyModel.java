@@ -18,16 +18,6 @@ public class GoodbyModel {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         sysDate = sdf.format(c.getTime());
 
-        //report="Strutsのない世界よさようなら";
-        // dbData = new ArrayList <String>();
-        // dbData.add("2019/12/06 09:00:00,退出済,みやぎ");
-        // dbData.add("2019/12/06 09:05:00,入室中,おか");
-        // dbData.add("2019/12/06 09:11:00,入室中,はたがみ");
-        // dbData.add("2019/12/06 09:20:00,退出済,うちだ");
-        // dbData.add("2019/12/06 13:00:00,入室中,しらはた");
-        // dbData.add("2019/12/06 15:00:00,入室中,しらはた");
-        // dbData.add("2019/12/06 18:00:00,入室中,しらはた");
-
     }
 
     public String getReport() {

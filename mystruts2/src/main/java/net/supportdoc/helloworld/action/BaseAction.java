@@ -17,7 +17,7 @@ public abstract class BaseAction extends ActionSupport {
     String dbName = "coshiroshima";
     String user = "ManabuShirahata@shirahata";
     String password = "19brnZh77";
-    String dbUrl = null;
+    //String dbUrl = null;
 
     public Connection conn;
     public String execClassName;
@@ -49,6 +49,7 @@ public abstract class BaseAction extends ActionSupport {
      */
     public Boolean connectDb() {
 
+        //接続文字列の作成
         String url = String.format("jdbc:mysql://%s:%s/%s?", hostName, port, dbName);
         url += "characterEncoding=utf8&useSSL=true&serverTimezone=GMT%2B9:00&rewriteBatchedStatements=true";
 
@@ -74,19 +75,23 @@ public abstract class BaseAction extends ActionSupport {
     }
 
     
-    /** 
-     * @param id 管理用id
-     * @return boolean true=処理成功, false=処理失敗
-     */
-    public boolean deleteDb(int id) {
 
-        String sql = "delete from houmon where id = ?;";
+    
+    /** 日付範囲でデータを消去する
+     * @param minDate 最小日付
+     * @param maxDate 最大日付
+     * @return boolean 結果
+     */
+    public boolean deleteDb(String minDate, String maxDate) {
+
+        String sql = "delete from houmon where in_date between ? AND ?;";
 
         try {
             conn.setAutoCommit(false);
 
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, id);
+            ps.setString(1, minDate);
+            ps.setString(2, maxDate);
 
             ps.executeUpdate();
             conn.commit();

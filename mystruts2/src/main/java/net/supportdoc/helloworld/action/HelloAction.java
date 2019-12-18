@@ -2,7 +2,6 @@ package net.supportdoc.helloworld.action;
 
 import net.supportdoc.helloworld.model.HelloModel;
 import net.supportdoc.helloworld.model.GoodbyModel;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import net.supportdoc.helloworld.action.BaseAction;
@@ -35,7 +34,7 @@ public class HelloAction extends BaseAction {
     //     System.out.println("endMethod:testDeail");
     // }
 
-    /** 
+    /** y
      * @return String
      */
     public String create() {
@@ -68,8 +67,10 @@ public class HelloAction extends BaseAction {
 
         //insertクエリを投げる
         try {
-            String query = "insert into houmon SET " + "company = ?, " + "name = ?, " + "num = ?, "
-            + "in_date = CURRENT_TIMESTAMP();";
+            String query = "insert into houmon SET company = ?, " + 
+                                "name = ?, " + 
+                                "num = ?, " + 
+                                "in_date = CURRENT_TIMESTAMP();";
 
             conn.setAutoCommit(false);
 

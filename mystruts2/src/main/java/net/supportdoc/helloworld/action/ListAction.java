@@ -3,9 +3,11 @@ package net.supportdoc.helloworld.action;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import java.util.*;
 import net.supportdoc.helloworld.action.BaseAction;
 import net.supportdoc.helloworld.model.DtoModel;
+import net.supportdoc.helloworld.model.ExitModel;
 
 public class ListAction extends BaseAction {
 
@@ -15,6 +17,7 @@ public class ListAction extends BaseAction {
     private static final long serialVersionUID = 1L;
     private DtoModel dtoM;
     private List<DtoModel> dtoList;
+    private ExitModel exitM;
    
    
     /** 
@@ -24,6 +27,7 @@ public class ListAction extends BaseAction {
 
         dtoM = new DtoModel();
 
+
         //Azure for MySQLへ接続
         boolean ret = connectDb();
 
@@ -32,8 +36,12 @@ public class ListAction extends BaseAction {
         }
 
         // selectクエリを投げる
+        //DATE_FORMAT(in_date,'%m/%d %H:%i')：入室時間をM/d H:m表示
+        //TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP(), in_date), '%H:%i')：入室中時間をh:mm表示
         dtoList = selectDetail("select id, company, name, num, DATE_FORMAT(in_date,'%m/%d %H:%i') as in_date, TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP(), in_date), '%H:%i') AS diff, dest, out_date " + 
-                                                    "from houmon where out_date='2000/01/01 0:0:0' order by in_date desc;");
+                                                    "from houmon " +
+                                                    "where out_date='2000/01/01 0:0:0' " +
+                                                    "order by in_date desc;");
 
         System.out.println("【ListAction.create】success");
         return "ok";
@@ -95,6 +103,38 @@ public class ListAction extends BaseAction {
 
     }
 
+
+    public String taishitsu() {
+
+        exitM = new ExitModel();
+
+        String id = exitM.getIdValue();
+
+        if (id == null) {
+            System.out.println("ID値の取得に失敗しました。");
+            //System.exit(0);            
+        }
+
+        boolean ret;
+        
+        //Azure for MySQLへ接続
+        ret = connectDb();
+
+        if (ret == false) {
+            System.exit(0);
+        }
+        
+        
+        // ret = updateDetail(id, "岡");
+        // if (ret == false) {
+        //     System.out.println("退室処理ができませんでした。");
+        //     System.exit(0);
+        // } else {
+        //     System.out.println("ID = " + id + "の退室処理を行いました。");
+        // }
+        return "ok";
+
+    }
     
     /** 
      * @param id ID
@@ -103,7 +143,7 @@ public class ListAction extends BaseAction {
      */
     public Boolean updateDetail(String id, String dest) {
     
-        String query = "update houmon set dest=?, out_time= CURRENT_TIMESTAMP() where id=?;";
+        String query = "update houmon set dest = ?, out_time= CURRENT_TIMESTAMP() where id = ?;";
         //insertクエリを投げる
         try {
 
@@ -164,6 +204,15 @@ public class ListAction extends BaseAction {
     public void setDtoList(List<DtoModel> dtoList) {
         this.dtoList = dtoList;
     }
+
+    public ExitModel getExitM() {
+        return exitM;
+    }
+
+    public void setExitM(ExitModel exitM) {
+        this.exitM = exitM;
+    }
+
 
 
 
