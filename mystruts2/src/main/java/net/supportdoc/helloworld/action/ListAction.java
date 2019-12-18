@@ -26,6 +26,7 @@ public class ListAction extends BaseAction {
     public String create() {
 
         dtoM = new DtoModel();
+        exitM = new ExitModel();
 
 
         //Azure for MySQLへ接続
@@ -104,13 +105,12 @@ public class ListAction extends BaseAction {
     }
 
 
-    public String taishitsu() {
+    public void taishitsu() {
 
-        exitM = new ExitModel();
+        String idValue = exitM.getIdValue(); System.out.println("ID = " + idValue);
+        String dest = exitM.getDest(); System.out.println("dest = " + dest);
 
-        String id = exitM.getIdValue();
-
-        if (id == null) {
+        if (idValue == null) {
             System.out.println("ID値の取得に失敗しました。");
             //System.exit(0);            
         }
@@ -122,17 +122,15 @@ public class ListAction extends BaseAction {
 
         if (ret == false) {
             System.exit(0);
+        }       
+        
+        ret = updateDetail(idValue, dest);
+        if (ret == false) {
+            System.out.println("退室処理ができませんでした。");
+            System.exit(0);
+        } else {
+            System.out.println("ID = " + idValue + "の退室処理を行いました。");
         }
-        
-        
-        // ret = updateDetail(id, "岡");
-        // if (ret == false) {
-        //     System.out.println("退室処理ができませんでした。");
-        //     System.exit(0);
-        // } else {
-        //     System.out.println("ID = " + id + "の退室処理を行いました。");
-        // }
-        return "ok";
 
     }
     
@@ -143,7 +141,7 @@ public class ListAction extends BaseAction {
      */
     public Boolean updateDetail(String id, String dest) {
     
-        String query = "update houmon set dest = ?, out_time= CURRENT_TIMESTAMP() where id = ?;";
+        String query = "update houmon set dest = ?, out_date= CURRENT_TIMESTAMP() where id = ?;";
         //insertクエリを投げる
         try {
 
@@ -206,10 +204,12 @@ public class ListAction extends BaseAction {
     }
 
     public ExitModel getExitM() {
+        System.out.println("getExitM " + exitM);
         return exitM;
     }
 
     public void setExitM(ExitModel exitM) {
+        System.out.println("setExitM " + exitM);
         this.exitM = exitM;
     }
 

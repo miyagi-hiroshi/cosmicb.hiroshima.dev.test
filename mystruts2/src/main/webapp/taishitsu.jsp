@@ -32,7 +32,9 @@
                         <th width="220">会社名</th>
                         <th width="310">訪問者名</th>
                         <th width="90">経過時間</th>
+                        <th width="240">訪問先</th>
                         <th width="240">退室処理</th>
+                        
                         </tr>
                     </thead>
                 </table>
@@ -44,12 +46,13 @@
                         <s:iterator value="dtoList" status="row">
                             <s:form action="taishitsu" method="post">
                                 <tr>
-                                    <td width="100"><s:textfield size="1" name="exitM.idValue" value="%{id}" theme="simple" disabled="true"/></td>
+                                    <td width="100"><s:textfield size="1" name="exitM.idValue" value="%{id}" readonly="readonly" theme="simple"/></td>
                                     <td width="170"><s:property value="in_date"/></td>
                                     <td width="300" class="twxt-nowrap"><s:property value="company"/></td>
                                     <td width="200" class="twxt-nowrap"><s:property value="name"/></td>
-                                    <td width="140"><s:property value="diff"/></td>
-                                    <td width="40"></td><s:hidden value="test" name="hidden" theme="simple"/>
+                                    <td width="160"><s:textfield size="5" name="exitM.idValue" value="%{diff}" theme="simple" disabled="true"/></td>
+                                    <td width="300" class="twxt-nowrap"><s:textfield name="exitM.dest" theme="simple"/></td>
+                                        <!-- <s:property value="diff"/></td> -->
                                     <td>
                                         <s:submit value="退室処理" theme="simple"/><br>
                                     </td>
