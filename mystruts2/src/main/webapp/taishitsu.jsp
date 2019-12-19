@@ -27,11 +27,11 @@
             <legend>日付フィルター</legend>
 
             <s:form action="filter" name="filter_form" method="post">
-                <p><s:checkbox name="inRoom" fieldValue="true" value="exitM.chk_filter" label="入室中表示"/></p>
+                <p><s:checkbox name="exitM.chk_filter" fieldValue="true" value="%{exitM.chk_filter}" label="入室中表示"/></p>
 
                 <p>
-                    日付指定：<s:textfield type="date" name="min_date" label="min" min="2019-01-01" theme="simple"/> ～ 
-                    <s:textfield type="date" name="max_date" label="max" min="2019-01-01" theme="simple" />
+                    日付指定：<s:textfield type="date" name="exitM.minDate" label="min" min="2019-01-01" theme="simple"/> ～ 
+                    <s:textfield type="date" name="exitM.maxDate" label="max" min="2019-01-01" theme="simple" />
                     <s:submit value="フィルター実行" theme="simple"/>
                 </p>
 
@@ -72,10 +72,11 @@
                                     <td width="210" class="twxt-nowrap"><s:property value="name"/></td>
                                     <td width="160"><s:textfield size="5" name="diff" value="%{diff}" theme="simple" disabled="true"/></td>
                                     <!-- <td width="170"><s:property value="diff"/></td> -->
-                                    <td width="230" class="twxt-nowrap"><s:textfield name="exitM.dest" theme="simple"/></td>
-                                        <!-- <s:property value="diff"/></td> -->
+                                    <td width="230" class="twxt-nowrap"><s:textfield name="exitM.dest" value="%{dest}" theme="simple" var="diff"/></td>
                                     <td>
-                                        <s:submit type="button" value="退室処理" theme="simple"/><br>
+                                        <s:if test="%{#diff != '---'}">
+                                            <s:submit type="button" value="退室処理" theme="simple"/><br>
+                                        </s:if>
                                     </td>
                                 </tr>
                             </s:form>

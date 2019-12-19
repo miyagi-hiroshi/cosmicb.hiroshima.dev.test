@@ -53,10 +53,33 @@ public class ListAction extends BaseAction {
 
     public String filter() {
 
-        boolean inRoom = exitM.isChk_filter();
-        String minDate, maxDate;
+        boolean chk_filter = exitM.isChk_filter();
+        String minDate = exitM.getMinDate();
+        String maxDate = exitM.getMaxDate();
 
-        dtoList = selectDetail("");
+        //Azure for MySQLへ接続
+        boolean ret = connectDb();
+
+        if (ret == false) {
+            System.exit(0);
+        }
+
+        if (chk_filter) {
+            //入室中のみの表示
+            dtoList = selectDetail("select id, company, name, num, DATE_FORMAT(in_date,'%m/%d %H:%i') as in_date, TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP(), in_date), '%H:%i') AS diff, dest, out_date " + 
+                            "from houmon " +
+                            "where (in_date between '" + minDate + " 0:0:0' AND '" + maxDate + " 23:59:59') AND out_date='2000/01/01 0:0:0' " +
+                            "order by in_date desc;");
+
+        } else {
+            //すべて表示
+            dtoList = selectDetail("select id, company, name, num, DATE_FORMAT(in_date,'%m/%d %H:%i') as in_date, CASE WHEN out_date>'2000/1/1 0:0:0' THEN '---' ELSE TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP(), in_date), '%H:%i') END as diff , dest, out_date " + 
+                            "from houmon " +
+                            "where (in_date between '" + minDate + " 0:0:0' AND '" + maxDate + " 23:59:59') " +
+                            "order by in_date desc;");
+        }
+
+            return "ok";
 
     }
 
