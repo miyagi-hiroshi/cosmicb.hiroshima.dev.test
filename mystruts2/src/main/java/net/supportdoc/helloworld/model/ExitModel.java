@@ -2,16 +2,18 @@ package net.supportdoc.helloworld.model;
 
 public class ExitModel {
 
-    private String idValue, dest;
+    private String id, dest;
+    private int count;
+    private boolean chk_filter;
 
-    public String getIdValue() {
-        System.out.println("getIdValue " + idValue);
-        return idValue;
+    public String getId() {
+        System.out.println("getIdValue " + id);
+        return id;
     }
 
-    public void setIdValue(String idValue) {
-        System.out.println("setIdValue " + idValue);
-        this.idValue = idValue;
+    public void setId(String id) {
+        System.out.println("setIdValue " + id);
+        this.id = id;
     }
 
     public String getDest() {
@@ -24,6 +26,23 @@ public class ExitModel {
         this.dest = dest;
     }
 
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public boolean isChk_filter() {
+        return chk_filter;
+    }
+
+    public void setChk_filter(boolean chk_filter) {
+        this.chk_filter = chk_filter;
+    }
+
+    
 
 
 }

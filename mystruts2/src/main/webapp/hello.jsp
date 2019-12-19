@@ -24,29 +24,22 @@
         </s:form>
         
         <!-- //TODO：おまけ機能・・・入力チェック -->
-        <!-- <script>
+        <script>
             function check_submit(){
                 var company = document.getElementById('reg_form_goodby_company').value
                 var name = document.getElementById('reg_name').value
-                alert('会社名 ' + company + ' 名前　' + name )
 
                 if (name == "") {
-                    // alert("名前が入力されていません");
-                    try {
-                        throw new Error('会社名 ' + company + ' 名前　' + name );
-                    } catch (e) {
-
-                    }
 
                 } else {
                     var r = confirm("送信してもよろしいですか？");
-                    if (r) {document.uketsuke.submit();}
+                    if (r) {document.reg_form.submit();}
                 }
 
             }
 
        
-        </script> -->
+        </script>
 		
 		会社名：<s:property value ="goodby.company" /><br>
 		名前：<s:property value ="goodby.name" /><br>

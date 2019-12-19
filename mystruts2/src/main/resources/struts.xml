@@ -21,8 +21,12 @@
         <action name="exit" class="net.supportdoc.helloworld.action.ListAction" method="create">
             <result name="ok">/taishitsu.jsp</result>
         </action>
-            <action name="taishitsu" class="net.supportdoc.helloworld.action.ListAction" method="taishitsu">
-            <result name="ok">/taishitsu.jsp</result>
+        <!-- type="chain"とすることでactionを指定 -->
+        <action name="taishitsu" class="net.supportdoc.helloworld.action.ListAction" method="taishitsu">
+            <result name="ok" type="chain">exit</result>
+        </action>
+        <action name="filter" class="net.supportdoc.helloworld.action.ListAction" method="filter">
+            <result name="ok" type="chain">exit</result>
         </action>
         
     </package>

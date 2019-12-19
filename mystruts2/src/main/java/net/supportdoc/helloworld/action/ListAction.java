@@ -45,7 +45,18 @@ public class ListAction extends BaseAction {
                                                     "order by in_date desc;");
 
         System.out.println("【ListAction.create】success");
+
+
         return "ok";
+
+    }
+
+    public String filter() {
+
+        boolean inRoom = exitM.isChk_filter();
+        String minDate, maxDate;
+
+        dtoList = selectDetail("");
 
     }
 
@@ -91,6 +102,7 @@ public class ListAction extends BaseAction {
         } finally {
             if (conn != null) {
                 try {
+                    exitM.setCount(dtoList.size());
                     rs.close();
                     ps.close();
                     conn.close();
@@ -104,13 +116,14 @@ public class ListAction extends BaseAction {
 
     }
 
+    /** 退室ボタンを押した時の処理
+     */
+    public String taishitsu() {
 
-    public void taishitsu() {
-
-        String idValue = exitM.getIdValue(); System.out.println("ID = " + idValue);
+        String id = exitM.getId(); System.out.println("ID = " + id);
         String dest = exitM.getDest(); System.out.println("dest = " + dest);
 
-        if (idValue == null) {
+        if (id == null) {
             System.out.println("ID値の取得に失敗しました。");
             //System.exit(0);            
         }
@@ -124,12 +137,13 @@ public class ListAction extends BaseAction {
             System.exit(0);
         }       
         
-        ret = updateDetail(idValue, dest);
+        ret = updateDetail(id, dest);
         if (ret == false) {
             System.out.println("退室処理ができませんでした。");
-            System.exit(0);
+            return "ng";
         } else {
-            System.out.println("ID = " + idValue + "の退室処理を行いました。");
+            System.out.println("ID = " + id + "の退室処理を行いました。");
+            return "ok";
         }
 
     }
@@ -203,11 +217,19 @@ public class ListAction extends BaseAction {
         this.dtoList = dtoList;
     }
 
+    
+    /** 
+     * @return ExitModel
+     */
     public ExitModel getExitM() {
         System.out.println("getExitM " + exitM);
         return exitM;
     }
 
+    
+    /** 
+     * @param exitM
+     */
     public void setExitM(ExitModel exitM) {
         System.out.println("setExitM " + exitM);
         this.exitM = exitM;
