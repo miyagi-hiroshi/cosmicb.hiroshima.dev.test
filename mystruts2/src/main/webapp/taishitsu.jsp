@@ -8,9 +8,8 @@
         <title>管 理 画 面</title>
 
         <style>
-            taishitsu_exitM_id{
-                text-align: center;
-            }
+            @import url('/css/styles1.css');
+
         
         </style>
         <script type="text/javascript">
@@ -38,6 +37,7 @@
             </s:form>
 
         </fieldset>
+
         
         
         
@@ -70,13 +70,25 @@
                                     <td width="170"><s:property value="in_date"/></td>
                                     <td width="300" class="twxt-nowrap"><s:property value="company"/></td>
                                     <td width="210" class="twxt-nowrap"><s:property value="name"/></td>
-                                    <td width="160"><s:textfield size="5" name="diff" value="%{diff}" theme="simple" disabled="true"/></td>
+                                    <td width="160"><s:textfield size="5" name="diff" value="%{diff}" theme="simple" readonly="true" onChange="check()"/></td>
+                                    <!-- TODO:経過時間の色を変える -->
+                                    <script>
+                                        function check(){
+                                            var time1 = document.getElementById("taishitsu_diff").value;
+                                            alert(time1);
+                                            if (time1 == "---"){
+                                                document.getElementById("taishitsu_diff").style.backgroundColor = 'silver';
+                                            } 
+                                        }
+                                    
+                                    </script>
                                     <!-- <td width="170"><s:property value="diff"/></td> -->
                                     <td width="230" class="twxt-nowrap"><s:textfield name="exitM.dest" value="%{dest}" theme="simple" var="diff"/></td>
                                     <td>
-                                        <s:if test="%{#diff != '---'}">
+                                        <!-- TODO:入室中はボタン表示、退室済みはボタンを消去または押せない処理が必要 -->
+                                        <!-- <s:if test="%{#diff != '---'}">
                                             <s:submit type="button" value="退室処理" theme="simple"/><br>
-                                        </s:if>
+                                        </s:if> -->
                                     </td>
                                 </tr>
                             </s:form>
@@ -87,6 +99,11 @@
         <!-- </s:form> -->
 
         <s:debug />
+        <fieldset theme="simple">
+            <legend>データの削除</legend>
+            <s:submit value="データの削除" disabled="disabled"/>
+        </fieldset>
+
 
     </body>
 
