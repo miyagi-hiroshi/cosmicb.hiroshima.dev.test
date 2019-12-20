@@ -12,11 +12,17 @@
 
         
         </style>
-        <script type="text/javascript">
-            function filterCheck() {
+        <!-- TODO:経過時間の色を変える -->
+        <script type="text/javascript" charset="UTF-8">
+
+            function check(){
+                var obj_dest = document.getElementsByName("exitM.dest");
+                if (obj_dest[obj_dest.length -1].value == "") {
+                    alert("訪問先が入力されていません。");
+                }
 
             }
-        
+    
         </script>
 
     </head>
@@ -70,26 +76,31 @@
                                     <td width="170"><s:property value="in_date"/></td>
                                     <td width="300" class="twxt-nowrap"><s:property value="company"/></td>
                                     <td width="210" class="twxt-nowrap"><s:property value="name"/></td>
-                                    <td width="160"><s:textfield size="5" name="diff" value="%{diff}" theme="simple" readonly="true" onChange="check()"/></td>
-                                    <!-- TODO:経過時間の色を変える -->
-                                    <script>
-                                        function check(){
-                                            var time1 = document.getElementById("taishitsu_diff").value;
-                                            alert(time1);
-                                            if (time1 == "---"){
-                                                document.getElementById("taishitsu_diff").style.backgroundColor = 'silver';
-                                            } 
-                                        }
-                                    
-                                    </script>
+                                    <td width="160"><s:textfield size="5" name="diff" value="%{diff}" id="diff%{#row.index}" readonly="true" theme="simple"/></td>
                                     <!-- <td width="170"><s:property value="diff"/></td> -->
-                                    <td width="230" class="twxt-nowrap"><s:textfield name="exitM.dest" value="%{dest}" theme="simple" var="diff"/></td>
+                                    <td width="230" class="twxt-nowrap"><s:textfield name="exitM.dest" id="dest%{#row.index}" value="%{dest}" theme="simple"/></td>
                                     <td>
-                                        <!-- TODO:入室中はボタン表示、退室済みはボタンを消去または押せない処理が必要 -->
-                                        <!-- <s:if test="%{#diff != '---'}">
-                                            <s:submit type="button" value="退室処理" theme="simple"/><br>
-                                        </s:if> -->
+                                        <s:submit type="button" name="btn" value="退室処理" theme="simple" onclick="check()"/>
+
                                     </td>
+                                    <!-- TODO:入室中はボタン表示、退室済みはボタンを消去または押せない処理 -->
+                                    <script type="text/javascript" charset="UTF-8">
+                                        var obj_diff = document.getElementsByName("diff");
+                                        var obj_dest = document.getElementsByName("exitM.dest");
+                                        var obj_button = document.getElementsByName("btn");
+                                        for (var i = 0; i < obj_diff.length; i++) {
+                                            obj_diff[i].style.textAlign = "center";
+
+                                            if (obj_diff[i].value == "---") {
+                                                obj_diff[i].style.backgroundColor = "silver";
+                                                obj_dest[i].style.backgroundColor = "silver";
+                                                obj_diff[i].disabled = true;
+                                                obj_dest[i].disabled = true;
+                                                obj_button[i].disabled = true;
+                                            }
+                                        }
+
+                                    </script>
                                 </tr>
                             </s:form>
                         </s:iterator>
@@ -101,7 +112,11 @@
         <s:debug />
         <fieldset theme="simple">
             <legend>データの削除</legend>
-            <s:submit value="データの削除" disabled="disabled"/>
+
+            <s:form action="del" method="post">
+                <s:submit value="データの削除"/> 
+            </s:form>
+
         </fieldset>
 
 
