@@ -61,7 +61,7 @@ public class HelloAction extends BaseAction {
 
         //Azure for MySQLへ接続
         ret = connectDb();
-        if (ret == false){
+        if (ret == false) {
             System.exit(0);
         }
 
@@ -84,6 +84,7 @@ public class HelloAction extends BaseAction {
 
         } catch (SQLException e) {
             System.out.println("Insert処理エラー：" + e);
+            return "error";
 
         } finally {
             if (conn != null) {

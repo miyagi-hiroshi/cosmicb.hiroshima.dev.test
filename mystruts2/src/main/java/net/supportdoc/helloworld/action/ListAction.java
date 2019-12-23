@@ -38,7 +38,7 @@ public class ListAction extends BaseAction {
         boolean ret = connectDb();
 
         if (ret == false) {
-            return "ng";
+            return "error";
         }
 
         // selectクエリを投げる
@@ -66,7 +66,7 @@ public class ListAction extends BaseAction {
         boolean ret = connectDb();
 
         if (ret == false) {
-            return "ng";
+            return "error";
         }
 
         if (chk_filter) {
@@ -106,13 +106,13 @@ public class ListAction extends BaseAction {
         ret = connectDb();
 
         if (ret == false) {
-            return "ng";
+            return "error";
         }       
         
         ret = updateDetail(id, dest);
         if (ret == false) {
             System.out.println("退室処理ができませんでした。");
-            return "ng";
+            return "error";
         } else {
             System.out.println("ID = " + id + "の退室処理を行いました。");
             return "ok";
@@ -126,7 +126,7 @@ public class ListAction extends BaseAction {
         boolean ret = connectDb();
 
         if (ret == false) {
-            return "ng";
+            return "error";
         } 
 
         //Selectして削除対象のデータを取得
@@ -166,7 +166,7 @@ public class ListAction extends BaseAction {
 
                 } catch (SQLException e) {
                     System.out.println("DELETE処理エラー：" + e);
-                    return "ng";
+                    return "error";
                     
                 } finally {
                     if (conn != null) {
@@ -220,7 +220,7 @@ public class ListAction extends BaseAction {
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                    return "ng";
+                    return "error";
                 }
                 return "ok";
             }

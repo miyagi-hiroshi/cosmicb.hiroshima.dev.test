@@ -61,6 +61,7 @@ public abstract class BaseAction extends ActionSupport {
             return false;
         }
 
+
         try {
 
             conn = DriverManager.getConnection(url, user, password);
@@ -68,6 +69,7 @@ public abstract class BaseAction extends ActionSupport {
             return true;
 
         } catch (SQLException e) {
+            e.printStackTrace();
             System.out.println(e + " MySQLへの接続に失敗しました。");
             return false;
         }

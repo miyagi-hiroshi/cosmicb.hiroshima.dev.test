@@ -5,7 +5,14 @@
 
 <struts>
     <constant name="struts.devMode" value="true" />
+
     <package name="mystruts2" extends="struts-default">
+        <global-results>
+            <result name="error"> /Exception.jsp</result>
+        </global-results>
+        <global-exception-mappings>
+            <exception-mapping exception="java.lang.SQLException" result="myException"/>
+        </global-exception-mappings>
 
         <action name="hello" class="net.supportdoc.helloworld.action.HelloAction" method="create">
             <result name="success">/hello.jsp</result>
@@ -13,28 +20,28 @@
         <action name="reg" class="net.supportdoc.helloworld.action.HelloAction" method="regData">
             <exception-mapping exception="java.sql.exception" result="error" />
             <result name="success">/hello.jsp</result>
-            <result name="error"> /error.jsp </result>
+            <!-- <result name="error"> /error.jsp </result> -->
         </action>
         <action name="testa" class="net.supportdoc.helloworld.action.HelloAction" method="testMethod">
             <result name="success">/hello.jsp</result>
         </action>
         <action name="exit" class="net.supportdoc.helloworld.action.ListAction" method="create">
             <result name="ok">/taishitsu.jsp</result>
-            <result name="ng">/error.jsp</result>
+            <!-- <result name="ng">/error.jsp</result> -->
         </action>
         <!-- type="chain"とすることでactionを指定 -->
         <action name="taishitsu" class="net.supportdoc.helloworld.action.ListAction" method="taishitsu">
             <result name="ok" type="chain">exit</result>
-            <result name="ng">/error.jsp</result>
+            <!-- <result name="ng">/error.jsp</result> -->
         </action>
         <action name="filter" class="net.supportdoc.helloworld.action.ListAction" method="filter">
             <result name="ok">/taishitsu.jsp</result>
-            <result name="ng">/error.jsp</result>
+            <!-- <result name="ng">/error.jsp</result> -->
         </action>
         <action name="del" class="net.supportdoc.helloworld.action.ListAction" method="delete">
             <result name="nothing" type="chain">exit</result>
             <result name="ok"  type="chain">>exit</result>
-            <result name="ng">/error.jsp</result>
+            <!-- <result name="ng">/error.jsp</result> -->
         </action>
         
     </package>

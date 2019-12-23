@@ -9,21 +9,14 @@
 
         <style>
             @import url('/css/styles1.css');
-
         
         </style>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script src="/css/sample.js"></script>
         <!-- TODO:経過時間の色を変える -->
-        <script type="text/javascript" charset="UTF-8">
-
-            function check(){
-                var obj_dest = document.getElementsByName("exitM.dest");
-                if (obj_dest[obj_dest.length -1].value == "") {
-                    alert("訪問先が入力されていません。");
-                }
-
-            }
-    
-        </script>
 
     </head>
     <body>
@@ -42,74 +35,68 @@
 
             </s:form>
 
-        </fieldset>
-
+        </fieldset>       
         
         
-        
-        <!-- <s:form action="taishitsu" method="post"> -->
+        <div style="height:30px; width:1500px;">
+            <table class="table" height="50">
+                <thead class="thead-dark">
+                    <tr>
+                    <th width="0">I D</th>
+                    <th width="200">入室日時</th>
+                    <th width="220">会社名</th>
+                    <th width="310">訪問者名</th>
+                    <th width="90">経過時間</th>
+                    <th width="240">訪問先</th>
+                    <th width="240">退室処理</th>
+                    
+                    </tr>
+                </thead>
+            </table>
+        </dev>
 
-            <div style="height:30px; width:1500px;">
-                <table class="table" height="50">
-                    <thead class="thead-dark">
-                        <tr>
-                        <th width="0">I D</th>
-                        <th width="200">入室日時</th>
-                        <th width="220">会社名</th>
-                        <th width="310">訪問者名</th>
-                        <th width="90">経過時間</th>
-                        <th width="240">訪問先</th>
-                        <th width="240">退室処理</th>
-                        
-                        </tr>
-                    </thead>
-                </table>
-            </dev>
+        <div style="height:315px; overflow-y:scroll;">
+            <table class="table" height="300">
+                <tbody>
+                    <s:iterator value="dtoList" status="row">
+                        <s:form action="taishitsu" id="frm_exit%{#row.index}" method="post">
+                            <tr>
+                                <td width="100"><s:textfield size="1" name="exitM.id" value="%{id}" readonly="true" theme="simple"/></td>
+                                <td width="170"><s:property value="in_date"/></td>
+                                <td width="300" class="twxt-nowrap"><s:property value="company"/></td>
+                                <td width="210" class="twxt-nowrap"><s:property value="name"/></td>
+                                <td width="160"><s:textfield size="5" name="diff" value="%{diff}" id="diff%{#row.index}" readonly="true" theme="simple"/></td>
+                                <!-- <td width="170"><s:property value="diff"/></td> -->
+                                <td width="230" class="twxt-nowrap"><s:textfield name="exitM.dest" id="dest%{#row.index}" value="%{dest}" theme="simple"/></td>
+                                <td>
+                                    <s:submit type="button" name="btn" value="退室処理" theme="simple" onclick="return check_dest_submit()"/>
 
-            <div style="height:315px; overflow-y:scroll;">
-                <table class="table" height="300">
-                    <tbody>
-                        <s:iterator value="dtoList" status="row">
-                            <s:form action="taishitsu" method="post">
-                                <tr>
-                                    <td width="100"><s:textfield size="1" name="exitM.id" value="%{id}" readonly="true" theme="simple"/></td>
-                                    <td width="170"><s:property value="in_date"/></td>
-                                    <td width="300" class="twxt-nowrap"><s:property value="company"/></td>
-                                    <td width="210" class="twxt-nowrap"><s:property value="name"/></td>
-                                    <td width="160"><s:textfield size="5" name="diff" value="%{diff}" id="diff%{#row.index}" readonly="true" theme="simple"/></td>
-                                    <!-- <td width="170"><s:property value="diff"/></td> -->
-                                    <td width="230" class="twxt-nowrap"><s:textfield name="exitM.dest" id="dest%{#row.index}" value="%{dest}" theme="simple"/></td>
-                                    <td>
-                                        <s:submit type="button" name="btn" value="退室処理" theme="simple" onclick="check()"/>
+                                </td>
+                                <!-- 入室中はボタン表示、退室済みはボタンを消去または押せない処理 -->
+                                <script type="text/javascript" charset="UTF-8">
+                                    var obj_diff = document.getElementsByName("diff");
+                                    var obj_dest = document.getElementsByName("exitM.dest");
+                                    var obj_button = document.getElementsByName("btn");
+                                    for (var i = 0; i < obj_diff.length; i++) {
+                                        obj_diff[i].style.textAlign = "center";
 
-                                    </td>
-                                    <!-- TODO:入室中はボタン表示、退室済みはボタンを消去または押せない処理 -->
-                                    <script type="text/javascript" charset="UTF-8">
-                                        var obj_diff = document.getElementsByName("diff");
-                                        var obj_dest = document.getElementsByName("exitM.dest");
-                                        var obj_button = document.getElementsByName("btn");
-                                        for (var i = 0; i < obj_diff.length; i++) {
-                                            obj_diff[i].style.textAlign = "center";
-
-                                            if (obj_diff[i].value == "---") {
-                                                obj_diff[i].style.backgroundColor = "silver";
-                                                obj_dest[i].style.backgroundColor = "silver";
-                                                obj_diff[i].disabled = true;
-                                                obj_dest[i].disabled = true;
-                                                obj_button[i].disabled = true;
-                                            }
+                                        if (obj_diff[i].value == "---") {
+                                            obj_diff[i].style.backgroundColor = "silver";
+                                            obj_dest[i].style.backgroundColor = "silver";
+                                            obj_diff[i].disabled = true;
+                                            obj_dest[i].disabled = true;
+                                            obj_button[i].disabled = true;
                                         }
+                                    }
 
-                                    </script>
-                                </tr>
-                            </s:form>
-                        </s:iterator>
-                    </tbody>
-                </table>
-            </div>
-        <!-- </s:form> -->
+                                </script>
+                            </tr>
+                        </s:form>
+                    </s:iterator>
+                </tbody>
+            </table>
+        </div>
 
-        <s:debug />
         <fieldset theme="simple">
             <legend>データの削除</legend>
 
@@ -119,7 +106,7 @@
 
         </fieldset>
 
-
+        <s:debug />
     </body>
 
 
