@@ -14,16 +14,19 @@
 
         $('#demo1').text("現在、" + y + "/" + m + "/" + d + " " + hh + ":" + mmi + ":" + ss + "です。");
     }, 1000);
+
 })
 
 function check_uke_submit(){
     
-    var name = document.getElementById('reg_name').value                    
+    var name = document.getElementById('reg_name').value;
+    var company = document.getElementById('reg_company').value;
+
     if (name == "") {
         toastr["error"]("お名前の入力は必須です。", "エラー");
         return false;
     } else {
-        toastr["success"]("受付致しました。しばらくお待ちください。", "SUCCESS");
+        toastr["success"]("受付致しました。\n" + name + "さん、しばらくお待ちください。", "SUCCESS");
         return true;
     }
 }
@@ -40,15 +43,41 @@ function check_dest_submit(){
 
     var obj = event.target.form;
     var formName = obj.name;
-    var obj_dest = document.forms[formName].elements[2].value;
+    var dest = document.forms[formName].elements[2].value;
 
-    if (obj_dest == "") {
+    if (dest == "") {
         toastr["error"]("訪問先が入力されていません。", "エラー");
         return false;
     } else {
         toastr["success"]("退室処理を行います。", "SUCCESS");
+
+        //TODO:AJAX
+        $.ajax({
+            url : "http://localhost:8080/mystruts2/exit",
+            type : "POST",
+            data : {
+                "id" : document.forms[formName].elements[1].value,
+                "dest" : document.forms[formName].elements[2].value
+            }
+        })
+        //ajax通信が成功したときに発動
+        .done( (data) ) => {
+            $(".")
+        }
+
         return true;
     }
     
 
 }
+
+$.ajax( {
+
+    url:
+    data: {
+,
+    success: function(result){
+        
+    }
+
+});"

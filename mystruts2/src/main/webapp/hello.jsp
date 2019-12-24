@@ -24,9 +24,9 @@
 
         <s:form action="reg" id="reg_form" name="uketsuke"  method="post">
 
-			<s:textfield name="goodby.company" label="所属／会社" />
+			<s:textfield name="goodby.company" label="所属／会社" id="reg_company" />
 			<s:textfield name="goodby.name" label="お名前" id="reg_name"/>
-			<s:textfield name="goodby.num" type="number" label="人数" max="10" min="1" value="1"/>
+			<s:textfield name="goodby.num" type="number" label="人数" max="10" min="1" value="1" id="reg_num"/>
             <s:submit value="受　付" onclick="return check_uke_submit()"/>
             
         </s:form>

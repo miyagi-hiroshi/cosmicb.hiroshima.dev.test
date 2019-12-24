@@ -16,7 +16,7 @@
         <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
         <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         <script src="/css/sample.js"></script>
-        <!-- TODO:経過時間の色を変える -->
+
 
     </head>
     <body>
@@ -28,8 +28,8 @@
                 <p><s:checkbox name="exitM.chk_filter" fieldValue="true" value="%{exitM.chk_filter}" label="入室中表示"/></p>
 
                 <p>
-                    日付指定：<s:textfield type="date" name="exitM.minDate" label="min" min="2019-01-01" theme="simple"/> ～ 
-                    <s:textfield type="date" name="exitM.maxDate" label="max" min="2019-01-01" theme="simple" />
+                    日付指定：<s:textfield type="date" name="exitM.minDate" label="min" min="2019-01-01" id="fromDate" theme="simple"/> ～ 
+                    <s:textfield type="date" name="exitM.maxDate" label="max" min="2019-01-01" id="toDate" theme="simple" />
                     <s:submit value="フィルター実行" theme="simple"/>
                 </p>
 
@@ -61,9 +61,9 @@
                     <s:iterator value="dtoList" status="row">
                         <s:form action="taishitsu" id="frm_exit%{#row.index}" method="post">
                             <tr>
-                                <td width="100"><s:textfield size="1" name="exitM.id" value="%{id}" readonly="true" theme="simple"/></td>
+                                <td width="100" height="40"><s:textfield size="1" name="exitM.id" value="%{id}" readonly="true" theme="simple"/></td>
                                 <td width="170"><s:property value="in_date"/></td>
-                                <td width="300" class="twxt-nowrap"><s:property value="company"/></td>
+                                <td width="300" class="twxt-wrap"><s:property value="company"/></td>
                                 <td width="210" class="twxt-nowrap"><s:property value="name"/></td>
                                 <td width="160"><s:textfield size="5" name="diff" value="%{diff}" id="diff%{#row.index}" readonly="true" theme="simple"/></td>
                                 <!-- <td width="170"><s:property value="diff"/></td> -->
@@ -74,11 +74,15 @@
                                 </td>
                                 <!-- 入室中はボタン表示、退室済みはボタンを消去または押せない処理 -->
                                 <script type="text/javascript" charset="UTF-8">
+                                    var obj_id = document.getElementsByName("exitM.id");
                                     var obj_diff = document.getElementsByName("diff");
                                     var obj_dest = document.getElementsByName("exitM.dest");
                                     var obj_button = document.getElementsByName("btn");
+
+                                    //$(obj_id).css("text-align" , "center");
                                     for (var i = 0; i < obj_diff.length; i++) {
                                         obj_diff[i].style.textAlign = "center";
+                                        obj_id[i].style.textAlign = "center";
 
                                         if (obj_diff[i].value == "---") {
                                             obj_diff[i].style.backgroundColor = "silver";
@@ -86,6 +90,23 @@
                                             obj_diff[i].disabled = true;
                                             obj_dest[i].disabled = true;
                                             obj_button[i].disabled = true;
+                                        } else {
+                                            //経過時間が表示されている場合、経過時間の色を変える
+                                            var str_time = obj_diff[i].value.split(":");
+                                            var hour = parseInt(str_time[0], 10);
+
+                                            if (hour > 10) {
+                                                obj_diff[i].style.color = "white";
+                                                obj_diff[i].style.backgroundColor = "purple";
+
+                                            } else if (hour > 5) {
+                                                obj_diff[i].style.color = "white";
+                                                obj_diff[i].style.backgroundColor = "red";
+
+                                            } else if (hour >= 3) {
+                                                obj_diff[i].style.color = "black";
+                                                obj_diff[i].style.backgroundColor = "yellow";
+                                            }
                                         }
                                     }
 

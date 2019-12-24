@@ -162,6 +162,7 @@ public class ListAction extends BaseAction {
                         query = "delete from houmon where id=" + id;
                         ps = conn.prepareStatement(query);
                         ps.executeUpdate();
+                        
                     }
 
                 } catch (SQLException e) {
@@ -266,7 +267,7 @@ public class ListAction extends BaseAction {
                     System.out.print(dtoList.get(i).getCompany());
                     System.out.print(dtoList.get(i).getName());
                     System.out.println(dtoList.get(i).getIn_date());
-                }                
+                }
             }
 
         } catch (SQLException e) {

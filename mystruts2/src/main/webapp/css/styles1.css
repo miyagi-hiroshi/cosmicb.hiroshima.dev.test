@@ -5,6 +5,8 @@ h1{
 }
 
 
+
+
 #taishitsu_exitM_id{
     text-align: center;
 }
@@ -13,3 +15,28 @@ h1{
     text-align: center;    
   
 }
+
+#filter_exitM_chk_filter{
+
+    width:			24px;
+	height:			24px;
+	-moz-transform:		scale(1.4);
+	-webkit-transform:	scale(1.4);
+	transform:		scale(1.4);
+
+}
+
+.table {
+    
+    border-collapse: separate;
+    border-bottom: solid 2px #d83131;
+    border-spacing: 0px 1ex;
+
+}
+
+table td{
+    word-break : break-all;
+}
+
+
+
