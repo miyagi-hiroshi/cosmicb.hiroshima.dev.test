@@ -36,13 +36,13 @@ function check_dest_submit(){
     //押されたボタンが含まれるフォーム名を取得
 	$('.btn').on('click', function(event) {
         
-        console.log(event.target.form);
-	
+
     });
 
 
     var obj = event.target.form;
     var formName = obj.name;
+    var formId = obj.id;
     var dest = document.forms[formName].elements[2].value;
 
     if (dest == "") {
@@ -51,33 +51,48 @@ function check_dest_submit(){
     } else {
         toastr["success"]("退室処理を行います。", "SUCCESS");
 
-        //TODO:AJAX
-        $.ajax({
-            url : "http://localhost:8080/mystruts2/exit",
-            type : "POST",
-            data : {
-                "id" : document.forms[formName].elements[1].value,
-                "dest" : document.forms[formName].elements[2].value
-            }
+       //TODO:AJAX
+       $.ajax({
+        url : "http://localhost:8080/mystruts2/exit",
+        type : "POST",
+        data : {
+            // "id" : document.forms[formName].elements[0].value,
+            // "dest" : document.forms[formName].elements[2].value
+            "id" : $('#' + formName + '[name=exitM.id]').val(),
+            "dest" :  $('#' + formName + '[name=exitM.dest]').val()
+        },
+        timeout : 3000,
+        }).done(function(result) {
+            console.log(result);
+            console.log("done!");
+            
+        }).fail(function(result){
+            console.log(result);
+            console.log("error!");
         })
-        //ajax通信が成功したときに発動
-        .done( (data) ) => {
-            $(".")
-        }
-
-        return true;
     }
-    
-
 }
 
-$.ajax( {
 
-    url:
-    data: {
-,
-    success: function(result){
+function test() {
+
+    //TODO:AJAX
+    $.ajax({
+        url : "http://weather.livedoor.com/forecast/webservice/json/v1",
+        type : "GET",
+        dataType : "json",
+        data : {
+            city : "400040"
+        },
+        timeout : 1000
+    }).done(function(responseData) {
+        console.log("done");
         
-    }
+    }).fail(function(responseData){
+        console.log(responseData);
 
-});"
+    }).always(function(responseData){
+        console.log("Always!");
+    })
+
+}

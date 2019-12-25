@@ -22,7 +22,7 @@
 
         <p id="demo1">です。</p>
 
-        <s:form action="reg" id="reg_form" name="uketsuke"  method="post">
+        <s:form action="./reg" id="reg_form" name="uketsuke"  method="post">
 
 			<s:textfield name="goodby.company" label="所属／会社" id="reg_company" />
 			<s:textfield name="goodby.name" label="お名前" id="reg_name"/>
