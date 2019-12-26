@@ -59,12 +59,14 @@
         </dev>
 
         <div style="height:315px; overflow-y:scroll;">
-            <table class="table" height="300">
-                <tbody>
-                    <s:iterator value="dtoList" status="row">
-                        <s:form action="./taishitsu" id="frm_exit%{#row.index}" method="post">
+            <div id="ajax">
+                
+                    
+                <s:iterator value="dtoList" status="row">
+                    <s:form action="./taishitsu" method="post" theme="simple">
+                        <table class="table" height="50">
                             <tr>
-                                <td width="30" height="40">
+                                <td width="30">
                                     <s:hidden size="1" name="exitM.id" value="%{id}" readonly="true" theme="simple"/>
                                 </td>
                                 <td width="150">
@@ -83,7 +85,7 @@
                                     <s:textfield name="exitM.dest" id="dest%{#row.index}" value="%{dest}" theme="simple"/>
                                 </td>
                                 <td>
-                                    <s:submit value="退室処理" theme="simple" onclick="return check_dest_submit()"/>
+                                    <s:submit name="btn" value="退室処理" theme="simple" onclick="return check_dest_submit()"/>
 
                                 </td>
                                 <!-- 入室中はボタン表示、退室済みはボタンを消去または押せない処理 -->
@@ -126,10 +128,12 @@
 
                                 </script>
                             </tr>
-                        </s:form>
-                    </s:iterator>
-                </tbody>
-            </table>
+                        </table>
+                    </s:form>
+                </s:iterator>
+                   
+                
+            </div>
         </div>
 
         <fieldset theme="simple">

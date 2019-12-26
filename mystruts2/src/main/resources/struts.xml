@@ -20,29 +20,37 @@
         <action name="reg" class="net.supportdoc.helloworld.action.HelloAction" method="regData">
             <exception-mapping exception="java.sql.exception" result="error" />
             <result name="success">/hello.jsp</result>
-            <!-- <result name="error"> /error.jsp </result> -->
         </action>
         <action name="testa" class="net.supportdoc.helloworld.action.HelloAction" method="testMethod">
             <result name="success">/hello.jsp</result>
         </action>
         <action name="exit" class="net.supportdoc.helloworld.action.ListAction" method="create">
             <result name="ok">/taishitsu.jsp</result>
-            <!-- <result name="ng">/error.jsp</result> -->
         </action>
         <!-- type="chain"とすることでactionを指定 -->
         <action name="taishitsu" class="net.supportdoc.helloworld.action.ListAction" method="taishitsu">
             <result name="ok" type="chain">exit</result>
-            <!-- <result name="ng">/error.jsp</result> -->
         </action>
         <action name="filter" class="net.supportdoc.helloworld.action.ListAction" method="filter">
             <result name="ok">/taishitsu.jsp</result>
-            <!-- <result name="ng">/error.jsp</result> -->
         </action>
         <action name="del" class="net.supportdoc.helloworld.action.ListAction" method="delete">
             <result name="nothing" type="chain">exit</result>
             <result name="ok"  type="chain">>exit</result>
-            <!-- <result name="ng">/error.jsp</result> -->
-        </action>
-        
+
+        </action>        
     </package>
+
+    <package name="hello" namespace="/" extends="json-default">
+    	<result-types>
+		    <result-type name="json" class="org.apache.struts2.json.JSONResult"/>
+	    </result-types>
+
+        <action name="h_hello" class="net.supportdoc.helloworld.action.GuiHelloAction">
+        	<result name="success" type="json">
+			    <param name="root">msg</param>
+		    </result>
+        </action>
+    </package>
+    
 </struts>
