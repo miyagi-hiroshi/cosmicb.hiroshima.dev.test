@@ -42,7 +42,7 @@
         
         
         <div style="height:30px; width:1500px;">
-            <table class="table" height="50">
+            <table class="table1" height="50">
                 <thead class="thead-dark">
                     <tr>
                     <!-- <th width="0">I D</th> -->
@@ -64,7 +64,7 @@
                     
                 <s:iterator value="dtoList" status="row">
                     <s:form action="./taishitsu" id="frm_exit%{#row.index}" method="post" theme="simple">
-                        <table class="table" height="50">
+                        <table class="table2" height="50">
                             <tr>
                                 <td width="30">
                                     <s:hidden size="1" name="exitM.id" value="%{id}" readonly="true" theme="simple"/>

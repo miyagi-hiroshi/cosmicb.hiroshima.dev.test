@@ -28,12 +28,12 @@
             <result name="ok">/taishitsu.jsp</result>
         </action>
         <!-- type="chain"とすることでactionを指定 -->
-        <action name="taishitsu" class="net.supportdoc.helloworld.action.ListAction" method="taishitsu">
+        <!-- <action name="taishitsu" class="net.supportdoc.helloworld.action.ListAction" method="taishitsu">
             <result name="ok" type="chain">exit</result>
-        </action>
-        <!-- <action name="filter" class="net.supportdoc.helloworld.action.ListAction" method="filter">
-            <result name="ok">/taishitsu.jsp</result>
         </action> -->
+        <action name="filter" class="net.supportdoc.helloworld.action.ListAction" method="filter">
+            <result name="ok">/taishitsu.jsp</result>
+        </action>
         <action name="del" class="net.supportdoc.helloworld.action.ListAction" method="delete">
             <result name="nothing" type="chain">exit</result>
             <result name="ok"  type="chain">>exit</result>

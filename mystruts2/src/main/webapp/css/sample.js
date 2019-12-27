@@ -41,7 +41,7 @@ function check_dest_submit(t){
     var targetHtml = $("#" + frmId).html();
 
 
-    if (dest == "" || dest == null) {
+    if (dest == "") {
         toastr["error"]("訪問先が入力されていません。", "エラー");
         return false;
     } else {
@@ -51,7 +51,10 @@ function check_dest_submit(t){
         event.preventDefault();
 
         //該当フォームのHTMLを消去する
-        $("#" + frmId).html("");
+        $("#" + frmId).slideUp("slow", function() {
+            $("#" + frmId).html("");
+        })
+
 
        //TODO:AJAX GETで投げてJSONのレスポンスを受け取るようにする
        $.ajax({
@@ -73,29 +76,47 @@ function check_dest_submit(t){
             //該当行の情報(HTML)を消去する
             //非同期通信のレスポンス(JSON)を見て、DB登録されていればそのまま、
             //DBでエラーが発生していれば消去したHTMLを復元させる。
-
-            for (var i=0; i< len; i++){
-                if (data[i].MySQLconn == "ok" && data[i].MySQLupdate == "ok") {
-                    flag = true;
-
-                } else{
-                //JSON：DB登録失敗したときのコード↓
-                flag = false;
-
-                }
-            }
-
-            if (flag){
+            if (data.MySQLcon == "ok" && data.MySQLupdate == "ok") {
                 //JSON：DB登録成功したときのコード↓
                 toastr["success"]("退室処理を行いました。", "SUCCESS");
                 return true;
 
             } else {
+                //JSON：DB登録失敗したときのコード↓
                 //データを復元する
-                $("#" + frmId).html(targetHtml);
+                $("#" + frmId).slideUp("slow", function() {
+                    $("#" + frmId).html(targetHtml);
+                })
                 toastr["error"]("データベース更新時にエラーが発生しました。", "エラー");
+                location.reload(true);
                 return false;
             }
+
+            // for (var i=0; i< len; i++){
+            //     if (data[i].MySQLconn == "ok" && data[i].MySQLupdate == "ok") {
+            //         flag = true;
+
+            //     } else{
+            //     //JSON：DB登録失敗したときのコード↓
+            //     flag = false;
+
+            //     }
+            // }
+
+            // if (flag){
+            //     //JSON：DB登録成功したときのコード↓
+            //     toastr["success"]("退室処理を行いました。", "SUCCESS");
+            //     return true;
+
+            // } else {
+            //     //データを復元する
+            //     $("#" + frmId).slideUp("slow", function() {
+            //         $("#" + frmId).html(targetHtml);
+            //     })
+            //     toastr["error"]("データベース更新時にエラーが発生しました。", "エラー");
+            //     location.reload(true);
+            //     return false;
+            // }
 
 
             
@@ -103,10 +124,13 @@ function check_dest_submit(t){
 
             //非同期通信リクエスト失敗した時のコード
             //データを復元する
-            $("#" + frmId).html(targetHtml);
+            $("#" + frmId).slideUp("slow", function() {
+                $("#" + frmId).html(targetHtml);
+            })
             toastr["error"]("AJAXエラー", "エラー");
             console.log(jqXHR);
             console.log("error!");
+            location.reload(true);
         })
     }
 }

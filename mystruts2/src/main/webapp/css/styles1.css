@@ -26,7 +26,7 @@ h1{
 
 }
 
-.table {
+.table1 {
     
     border-collapse: separate;
     border-bottom: solid 2px #d83131;
@@ -34,9 +34,22 @@ h1{
 
 }
 
-table td{
+.table2 {
+    
+    border-collapse: separate;
+    border-bottom: solid 1px #000000;
+    border-spacing: 0px 1ex;
+
+}
+
+.table2 td{
     word-break : break-all;
 }
 
+#frm_exit{
+    background-color: white;
+}
 
-
+table.table2 tr:hover{
+    background-color: #CCFFFF;
+}
