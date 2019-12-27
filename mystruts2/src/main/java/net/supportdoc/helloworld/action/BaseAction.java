@@ -5,9 +5,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.*;
+import java.util.HashMap;
 
 
 public abstract class BaseAction extends ActionSupport {
@@ -17,13 +17,11 @@ public abstract class BaseAction extends ActionSupport {
     String dbName = "coshiroshima";
     String user = "ManabuShirahata@shirahata";
     String password = "19brnZh77";
-    //String dbUrl = null;
 
     public Connection conn;
     public String execClassName;
     public PreparedStatement ps;
     public ResultSet rs;
-
     
     /** 
      * @return String

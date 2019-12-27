@@ -31,9 +31,9 @@
         <action name="taishitsu" class="net.supportdoc.helloworld.action.ListAction" method="taishitsu">
             <result name="ok" type="chain">exit</result>
         </action>
-        <action name="filter" class="net.supportdoc.helloworld.action.ListAction" method="filter">
+        <!-- <action name="filter" class="net.supportdoc.helloworld.action.ListAction" method="filter">
             <result name="ok">/taishitsu.jsp</result>
-        </action>
+        </action> -->
         <action name="del" class="net.supportdoc.helloworld.action.ListAction" method="delete">
             <result name="nothing" type="chain">exit</result>
             <result name="ok"  type="chain">>exit</result>
@@ -41,14 +41,17 @@
         </action>        
     </package>
 
-    <package name="hello" namespace="/" extends="json-default">
+    <package name="ajax" namespace="/" extends="json-default">
     	<result-types>
 		    <result-type name="json" class="org.apache.struts2.json.JSONResult"/>
 	    </result-types>
 
-        <action name="h_hello" class="net.supportdoc.helloworld.action.GuiHelloAction">
-        	<result name="success" type="json">
-			    <param name="root">msg</param>
+        <action name="taishitsu" class="net.supportdoc.helloworld.action.ListAction" method="taishitsu">
+        	<result name="ok" type="json">
+			    <param name="root">jsonMap</param>
+		    </result>
+            <result name="error" type="json">
+			    <param name="root">jsonMap</param>
 		    </result>
         </action>
     </package>

@@ -47,7 +47,7 @@
                     <tr>
                     <!-- <th width="0">I D</th> -->
                     <th width="200">入室日時</th>
-                    <th width="220">会社名</th>
+                    <th width="220">会社名/所属</th>
                     <th width="310">訪問者名</th>
                     <th width="160">経過時間</th>
                     <th width="240">訪問先</th>
@@ -63,7 +63,7 @@
                 
                     
                 <s:iterator value="dtoList" status="row">
-                    <s:form action="./taishitsu" method="post" theme="simple">
+                    <s:form action="./taishitsu" id="frm_exit%{#row.index}" method="post" theme="simple">
                         <table class="table" height="50">
                             <tr>
                                 <td width="30">
@@ -85,7 +85,7 @@
                                     <s:textfield name="exitM.dest" id="dest%{#row.index}" value="%{dest}" theme="simple"/>
                                 </td>
                                 <td>
-                                    <s:submit name="btn" value="退室処理" theme="simple" onclick="return check_dest_submit()"/>
+                                    <s:submit name="btn" value="退室処理" theme="simple" onclick="return check_dest_submit(this)"/>
 
                                 </td>
                                 <!-- 入室中はボタン表示、退室済みはボタンを消去または押せない処理 -->

@@ -23,7 +23,7 @@ public class ListAction extends BaseAction {
     private DtoModel dtoM;
     private List<DtoModel> dtoList;
     private ExitModel exitM;
-   
+    private HashMap<String, String> jsonMap = new HashMap<String, String>();
    
     /** 
      * @return String
@@ -92,13 +92,14 @@ public class ListAction extends BaseAction {
      */
     public String taishitsu() {
 
+
+
         String id = exitM.getId(); System.out.println("ID = " + id);
         String dest = exitM.getDest(); System.out.println("dest = " + dest);
 
-        if (id == null) {
-            System.out.println("ID値の取得に失敗しました。");
-            //System.exit(0);            
-        }
+        // if (id == null) {
+        //     System.out.println("ID値の取得に失敗しました。");
+        // }
 
         boolean ret;
         
@@ -106,15 +107,26 @@ public class ListAction extends BaseAction {
         ret = connectDb();
 
         if (ret == false) {
+
+            jsonMap.put("MySQLcon","error");
+            setJsonMap(jsonMap);
             return "error";
-        }       
+        } else {
+            jsonMap.put("MySQLcon","ok");
+        }
         
         ret = updateDetail(id, dest);
         if (ret == false) {
             System.out.println("退室処理ができませんでした。");
+            jsonMap.put("MySQLupdate","error");
+            setJsonMap(jsonMap);
             return "error";
+
         } else {
             System.out.println("ID = " + id + "の退室処理を行いました。");
+            jsonMap.put("MySQLupdate","ok");
+            jsonMap.put("MySQLupdateId",id);
+            setJsonMap(jsonMap);
             return "ok";
         }
 
@@ -275,7 +287,7 @@ public class ListAction extends BaseAction {
 
         } finally {
             if (conn != null) {
-                try {                    
+                try {
                     rs.close();
                     ps.close();
                     conn.close();
@@ -377,10 +389,13 @@ public class ListAction extends BaseAction {
         this.exitM = exitM;
     }
 
+    public HashMap<String, String> getJsonMap() {
+        return jsonMap;
+    }
 
-
-
-
+    public void setJsonMap(HashMap<String, String> jsonMap) {
+        this.jsonMap = jsonMap;
+    }
 
 
 }

@@ -12,8 +12,8 @@ public class GuiHelloAction extends ActionSupport{
 
   	    HashMap<String,String> map = new HashMap<String,String>();
 
-  	    map.put("english","Hello World");
-  	    map.put("japanese","ようこそ世界");
+  	    map.put("english", "Hello World");
+  	    map.put("japanese", "ようこそ世界");
 
   	    setMsg(map);
         return SUCCESS;
