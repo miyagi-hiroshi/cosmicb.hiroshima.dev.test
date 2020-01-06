@@ -70,7 +70,7 @@
                                     <s:hidden size="1" name="exitM.id" value="%{id}" readonly="true" theme="simple"/>
                                 </td>
                                 <td width="150">
-                                    <s:property value="in_date"/>
+                                    <s:property value="_in_date"/>
                                 </td>
                                 <td width="350" class="twxt-wrap">
                                     <s:property value="company"/>

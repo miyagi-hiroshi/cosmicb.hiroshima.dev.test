@@ -4,7 +4,7 @@ public class DtoModel {
     
     private String company, name,dest,diff;
     private int id, num;
-    private String in_date, out_date;
+    private String _in_date, out_date;
 
     public String getCompany() {
         return company;
@@ -46,13 +46,6 @@ public class DtoModel {
         this.id = id;
     }
 
-    public String getIn_date() {
-        return in_date;
-    }
-
-    public void setIn_date(String in_date) {
-        this.in_date = in_date;
-    }
 
     public String getOut_date() {
         return out_date;
@@ -68,6 +61,14 @@ public class DtoModel {
 
     public void setDiff(String diff) {
         this.diff = diff;
+    }
+
+    public String get_in_date() {
+        return _in_date;
+    }
+
+    public void set_in_date(String _in_date) {
+        this._in_date = _in_date;
     }
 
    

@@ -60,10 +60,19 @@ public class HelloAction extends BaseAction {
         String num = goodby.getNum();
 
         //Azure for MySQLへ接続
-        ret = connectDb();
-        if (ret == false) {
-            System.exit(0);
+        try {
+            connection();
+        } catch (InstantiationException e) {
+            System.out.println("JDBCのドライバロードに失敗しました。");
+
+        } catch (SQLException e) {
+            System.out.println("MySQLへの接続に失敗しました。");
+            return "error";
         }
+        // ret = connectDb();
+        // if (ret == false) {
+        //     System.exit(0);
+        // }
 
         //insertクエリを投げる
         try {
@@ -96,8 +105,7 @@ public class HelloAction extends BaseAction {
             }
         }
 
-
-            return "success";
+        return "success";
 
     }
 
@@ -106,7 +114,6 @@ public class HelloAction extends BaseAction {
      * @return HelloModel
      */
     public HelloModel getHello() {
-        System.out.println("【HelloAction:getHello】" + hello);
         return hello;
     }
 
@@ -115,7 +122,6 @@ public class HelloAction extends BaseAction {
      * @param hello
      */
     public void setHello(HelloModel hello) {
-        System.out.println("HelloAction:setHello】" + hello);
         this.hello = hello;
     }
 
@@ -124,7 +130,6 @@ public class HelloAction extends BaseAction {
      * @return GoodbyModel
      */
     public GoodbyModel getGoodby() {
-        System.out.println("【HelloAction:getGoodby】" + goodby);
         return goodby;
     }
 
@@ -133,7 +138,6 @@ public class HelloAction extends BaseAction {
      * @param goodby
      */
     public void setGoodby(GoodbyModel goodby) {
-        System.out.println("【HelloAction:setGoodby】" + goodby);
         this.goodby = goodby;
     }
 
