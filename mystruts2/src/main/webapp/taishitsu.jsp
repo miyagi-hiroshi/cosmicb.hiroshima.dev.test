@@ -30,7 +30,8 @@
                 <p><s:checkbox name="exitM.chk_filter" fieldValue="true" value="%{exitM.chk_filter}" label="入室中表示"/></p>
 
                 <p>
-                    日付指定：<s:textfield type="date" name="exitM.minDate" label="min" min="2019-01-01" id="fromDate" theme="simple"/> ～ 
+                    日付指定(入室日)：
+                    <s:textfield type="date" name="exitM.minDate" label="min" min="2019-01-01" id="fromDate" theme="simple"/> ～ 
                     <s:textfield type="date" name="exitM.maxDate" label="max" min="2019-01-01" id="toDate" theme="simple" />
                     <s:submit value="フィルター実行" theme="simple"/>
                     
@@ -58,7 +59,7 @@
             </table>
         </dev>
 
-        <div style="height:315px; overflow-y:scroll;">
+        <div style="height:270px; overflow-y:scroll;">
             <div id="ajax">
                 
                     

@@ -16,9 +16,6 @@ import net.supportdoc.helloworld.model.ExitModel;
 
 public class ListAction extends BaseAction {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
     private DtoModel dtoM;
     private List<DtoModel> dtoList;
@@ -43,12 +40,8 @@ public class ListAction extends BaseAction {
             System.out.println("MySQLへの接続に失敗しました。");
             return "error";
         }
-        // boolean ret = connectDb();
-        // if (ret == false) {
-        //     return "error";
-        // }
 
-        // selectクエリを投げる
+        // 現在入室中のデータを検索する
         //DATE_FORMAT(in_date,'%m/%d %H:%i')：入室時間をM/d H:m表示
         //TIME_FORMAT(TIMEDIFF(CURRENT_TIMESTAMP(), in_date), '%H:%i')：入室中時間をh:mm表示
         dtoList = selectDetail("select id," +
@@ -70,6 +63,10 @@ public class ListAction extends BaseAction {
 
     }
 
+    
+    /** 検索条件指定の場合の処理
+     * @return String
+     */
     public String filter() {
 
         boolean chk_filter = exitM.isChk_filter();
@@ -86,11 +83,6 @@ public class ListAction extends BaseAction {
             System.out.println("MySQLへの接続に失敗しました。");
             return "error";
         }
-        // boolean ret = connectDb();
-
-        // if (ret == false) {
-        //     return "error";
-        // }
 
         if (chk_filter) {
             //入室中のみの表示
@@ -134,10 +126,11 @@ public class ListAction extends BaseAction {
         String id = exitM.getId(); System.out.println("ID = " + id);
         String dest = exitM.getDest(); System.out.println("dest = " + dest);
 
+        DaoUpdate update = new DaoUpdate();
+
         boolean ret;
         
         //Azure for MySQLへ接続する処理
-
         try {
             connection();
             jsonMap.put("MySQLcon","ok");
@@ -148,20 +141,9 @@ public class ListAction extends BaseAction {
             jsonMap.put("MySQLcon","error");
             setJsonMap(jsonMap);
         }
-
-
-        // ret = connectDb();
-        // if (ret == false) {
-        //     //json形式でステータスを記録する
-        //     jsonMap.put("MySQLcon","error");
-        //     setJsonMap(jsonMap);
-        //     return "error";
-        // } else {
-        //     jsonMap.put("MySQLcon","ok");
-        // }
         
         //更新処理
-        ret = updateDetail(id, dest);
+        ret = update.updateEvent(conn, id, dest);
         if (ret == false) {
             System.out.println("退室処理ができませんでした。");
             jsonMap.put("MySQLupdate","error");
@@ -178,6 +160,10 @@ public class ListAction extends BaseAction {
 
     }
 
+    
+    /** データ削除処理(入室日より3年以上経過が対象。退室処理されていないデータは対象外)
+     * @return String
+     */
     public String delete() {
 
         //Azure for MySQLへ接続
@@ -347,44 +333,7 @@ public class ListAction extends BaseAction {
 
     }
     
-    /** 
-     * @param id ID
-     * @param dest 訪問先
-     * @return Boolean
-     */
-    public Boolean updateDetail(String id, String dest) {
-    
-        String query = "update houmon set dest = ?, out_date= CURRENT_TIMESTAMP() where id = ?;";
-        //insertクエリを投げる
-        try {
 
-            conn.setAutoCommit(false);
-
-            PreparedStatement ps = conn.prepareStatement(query);
-            ps.setString(1, dest);  //訪問先
-            ps.setString(2, id);    //idまたは入室時間どちらか
-
-            ps.executeUpdate();
-            conn.commit();
-
-        } catch (SQLException e) {
-            System.out.println("Update処理エラー：" + e);
-            return false;
-
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    System.out.println("MySQLのクローズ処理に失敗しました。");
-                }
-            }
-        }
-
-        return true;
-    }
-
-    
     /** 
      * @return DtoModel
      */
@@ -434,10 +383,18 @@ public class ListAction extends BaseAction {
         this.exitM = exitM;
     }
 
+    
+    /** 
+     * @return HashMap<String, String>
+     */
     public HashMap<String, String> getJsonMap() {
         return jsonMap;
     }
 
+    
+    /** 
+     * @param jsonMap
+     */
     public void setJsonMap(HashMap<String, String> jsonMap) {
         this.jsonMap = jsonMap;
     }

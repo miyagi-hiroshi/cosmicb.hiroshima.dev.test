@@ -34,7 +34,7 @@ public class HelloAction extends BaseAction {
     //     System.out.println("endMethod:testDeail");
     // }
 
-    /** y
+    /** 
      * @return String
      */
     public String create() {
@@ -69,10 +69,6 @@ public class HelloAction extends BaseAction {
             System.out.println("MySQLへの接続に失敗しました。");
             return "error";
         }
-        // ret = connectDb();
-        // if (ret == false) {
-        //     System.exit(0);
-        // }
 
         //insertクエリを投げる
         try {

@@ -26,7 +26,7 @@ function check_uke_submit(){
         toastr["error"]("お名前の入力は必須です。", "エラー");
         return false;
     } else {
-        toastr["success"]("受付致しました。\r\n" + name + "さん、しばらくお待ちください。", "SUCCESS");
+        toastr["success"]("受付致しました。" + name + "さん、しばらくお待ちください。", "SUCCESS");
         return true;
     }
 }
@@ -66,9 +66,6 @@ function check_dest_submit(t){
         timeout : 3000
         }).done(function(data, textStatus, jqXHR){
 
-            var len = data.length;
-            var flag = true;
-
             console.log("done!");
             console.log(data);
 
@@ -83,27 +80,42 @@ function check_dest_submit(t){
 
             } else {
                 //JSON：DB登録失敗したときのコード↓
-                //データを復元する
+                //データを復元する(アニメーション付き)
                 $("#" + frmId).slideUp("slow", function() {
                     $("#" + frmId).html(targetHtml);
                 })
                 toastr["error"]("データベース更新時にエラーが発生しました。", "エラー");
                 location.reload(true);
-                return false;
             }
 
 
         }).fail(function(jqXHR, textStatus, errorThrown){
 
             //非同期通信リクエスト失敗した時のコード
-            //データを復元する
-            $("#" + frmId).slideUp("slow", function() {
-                $("#" + frmId).html(targetHtml);
-            })
-            toastr["error"]("AJAXエラー", "エラー");
-            console.log(jqXHR);
-            console.log("error!");
+            //データを復元する(アニメーション付き)
+            toastr["error"]("AJAX_TIMEOUT", "タイムアウト");
             location.reload(true);
+
+
+            // $("#" + frmId).slideUp("slow", function() {
+            //     $("#" + frmId).html(targetHtml);
+            // })
+
+            // if (textStatus == "timeout"){
+            //     toastr["error"]("AJAX_TIMEOUT", "タイムアウト");
+
+
+            //     alert("サーバーとの通信がタイムアウトしました。ページを更新します");
+            //     location.reload(true);
+
+            // } else {
+            //     toastr["error"]("AJAXエラー", "エラー");
+            //     console.log(jqXHR);
+            //     console.log(textStatus);
+            //     console.log("error!");
+            // }
+            
+            //location.reload(true);
         })
     }
 }
