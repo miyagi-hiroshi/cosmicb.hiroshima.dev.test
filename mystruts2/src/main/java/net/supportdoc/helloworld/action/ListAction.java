@@ -31,13 +31,17 @@ public class ListAction extends BaseAction {
         exitM = new ExitModel();
 
         //Azure for MySQLへ接続
-        try {
-            connection();
-        } catch (InstantiationException e) {
-            System.out.println("JDBCのドライバロードに失敗しました。");
+        // try {
+        //     connection();
+        // } catch (InstantiationException e) {
+        //     System.out.println("JDBCのドライバロードに失敗しました。");
 
-        } catch (SQLException e) {
-            System.out.println("MySQLへの接続に失敗しました。");
+        // } catch (SQLException e) {
+        //     System.out.println("MySQLへの接続に失敗しました。");
+        //     return "error";
+        // }
+        String ret = conDetail();
+        if (ret=="error") {
             return "error";
         }
 
@@ -74,13 +78,8 @@ public class ListAction extends BaseAction {
         String maxDate = exitM.getMaxDate();
 
         //Azure for MySQLへ接続
-        try {
-            connection();
-        } catch (InstantiationException e) {
-            System.out.println("JDBCのドライバロードに失敗しました。");
-
-        } catch (SQLException e) {
-            System.out.println("MySQLへの接続に失敗しました。");
+        String ret = conDetail();
+        if (ret == "error") {
             return "error";
         }
 
@@ -128,23 +127,34 @@ public class ListAction extends BaseAction {
 
         DaoUpdate update = new DaoUpdate();
 
-        boolean ret;
+        String ret;
         
         //Azure for MySQLへ接続する処理
-        try {
-            connection();
-            jsonMap.put("MySQLcon","ok");
-
-        } catch (InstantiationException | SQLException e) {
-            System.out.println("JDBCのドライバロードに失敗しました。");
-            //json形式でステータスを記録する
+        ret = conDetail();
+        if (ret == "error") {
             jsonMap.put("MySQLcon","error");
             setJsonMap(jsonMap);
+            return "error";
+
+        } else {
+            //okの場合
+            jsonMap.put("MySQLcon","ok");
         }
+
+        // try {
+        //     connection();
+        //     jsonMap.put("MySQLcon","ok");
+
+        // } catch (InstantiationException | SQLException e) {
+        //     System.out.println("JDBCのドライバロードに失敗しました。");
+        //     //json形式でステータスを記録する
+        //     jsonMap.put("MySQLcon","error");
+        //     setJsonMap(jsonMap);
+        // }
         
         //更新処理
         ret = update.updateEvent(conn, id, dest);
-        if (ret == false) {
+        if (ret == "error") {
             System.out.println("退室処理ができませんでした。");
             jsonMap.put("MySQLupdate","error");
             setJsonMap(jsonMap);
@@ -154,6 +164,7 @@ public class ListAction extends BaseAction {
             System.out.println("ID = " + id + "の退室処理を行いました。");
             jsonMap.put("MySQLupdate","ok");
             jsonMap.put("MySQLupdateId",id);
+            jsonMap.put("update", ret);    //update対象件数
             setJsonMap(jsonMap);
             return "ok";
         }
@@ -167,15 +178,10 @@ public class ListAction extends BaseAction {
     public String delete() {
 
         //Azure for MySQLへ接続
-        try {
-            connection();
-        } catch (InstantiationException e) {
-            System.out.println("JDBCのドライバロードに失敗しました。");
-
-        } catch (SQLException e) {
-            System.out.println("MySQLへの接続に失敗しました。");
+        String ret = conDetail();
+        if (ret == "error") {
             return "error";
-        } 
+        }
 
         //Selectして削除対象のデータを取得
         dtoList = selectDetail("select " +
@@ -261,6 +267,7 @@ public class ListAction extends BaseAction {
                     pw.println();
                 }
 
+                fw.close();
                 pw.close();
                 System.out.println("deleteLog出力OK");
 
@@ -274,7 +281,7 @@ public class ListAction extends BaseAction {
     }
 
     
-    /** MySQL SELECT発行
+    /** MySQL SELECT発行し結果をDTOListに収める
      * @param query クエリ
      * @return List<DtoModel> 返り値：DTOList
      */
@@ -282,7 +289,7 @@ public class ListAction extends BaseAction {
 
         dtoList = new ArrayList<DtoModel>();
 
-        // selectクエリを投げる
+        // 引数のselectクエリを投げる
         try {
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();

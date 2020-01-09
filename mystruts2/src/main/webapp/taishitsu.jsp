@@ -59,9 +59,8 @@
             </table>
         </dev>
 
-        <div style="height:270px; overflow-y:scroll;">
-            <div id="ajax">
-                
+        <div style="height:300px; overflow-y:scroll;">
+            <div id="ajax">                
                     
                 <s:iterator value="dtoList" status="row">
                     <s:form action="./taishitsu" id="frm_exit%{#row.index}" method="post" theme="simple">

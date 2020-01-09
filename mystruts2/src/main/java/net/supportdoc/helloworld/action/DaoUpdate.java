@@ -14,9 +14,13 @@ public class DaoUpdate {
      * @param dest 訪問先
      * @return boolean true:update成功、false:update失敗
      */
-    public boolean updateEvent(Connection conn, String id, String dest) {
+    public String updateEvent(Connection conn, String id, String dest) {
 
-        String query = "update houmon set dest = ?, out_date= CURRENT_TIMESTAMP() where id = ?;";
+        //退出時間がデフォルトのものだけ更新する
+        String query = "update houmon set dest = ?, " 
+                        + "out_date = CURRENT_TIMESTAMP() " 
+                        + "where id = ? and out_date='2000/1/1 0:0:0';";
+        String ret;
 
         try {
 
@@ -27,12 +31,13 @@ public class DaoUpdate {
             ps.setString(2, id);    //id
 
             System.out.println(ps);
-            ps.executeUpdate();
+            ret = String.valueOf(ps.executeUpdate());
             conn.commit();
+            return ret;
 
         } catch (SQLException e) {
             System.out.println("Update処理エラー：" + e);
-            return false;
+            return "error";
 
         } finally {
             if (conn != null) {
@@ -44,7 +49,6 @@ public class DaoUpdate {
             }
         }
 
-        return true;
 
 
     }

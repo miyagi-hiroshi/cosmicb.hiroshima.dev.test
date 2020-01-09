@@ -26,6 +26,8 @@ h1{
 
 }
 
+
+
 .table1 {
     
     border-collapse: separate;
@@ -42,9 +44,9 @@ h1{
 
 }
 
-.table2 td{
+/* .table2 td{
     word-break : break-all;
-}
+} */
 
 #frm_exit{
     background-color: white;

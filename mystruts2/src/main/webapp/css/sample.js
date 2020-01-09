@@ -41,6 +41,8 @@ function check_dest_submit(t){
     var targetHtml = $("#" + frmId).html();
 
 
+
+
     if (dest == "") {
         toastr["error"]("訪問先が入力されていません。", "エラー");
         return false;
@@ -51,9 +53,11 @@ function check_dest_submit(t){
         event.preventDefault();
 
         //該当フォームのHTMLを消去する
-        $("#" + frmId).slideUp("slow", function() {
-            $("#" + frmId).html("");
-        })
+        $("#" + frmId).fadeOut("slow", function() {
+            $("#" + frmId).hide();
+            //$("#" + frmId).html("");
+            //$("#" + frmId).empty();
+        });
 
 
        //AJAX GETで投げてJSONのレスポンスを受け取るようにする
@@ -73,17 +77,27 @@ function check_dest_submit(t){
             //該当行の情報(HTML)を消去する
             //非同期通信のレスポンス(JSON)を見て、DB登録されていればそのまま、
             //DBでエラーが発生していれば消去したHTMLを復元させる。
-            if (data.MySQLcon == "ok" && data.MySQLupdate == "ok") {
+            if (data.MySQLcon == "ok" && data.MySQLupdate == "ok" && data.update != "0") {
                 //JSON：DB登録成功したときのコード↓
                 toastr["success"]("退室処理を行いました。", "SUCCESS");
-                return true;
+
+                //対象のformのHTMLを消去
+                $("#" + frmId).empty();
+
+
+            } else if (data.update == "0") {
+                toastr["warning"]("すでに退出処理されています", "警告");
 
             } else {
                 //JSON：DB登録失敗したときのコード↓
                 //データを復元する(アニメーション付き)
-                $("#" + frmId).slideUp("slow", function() {
-                    $("#" + frmId).html(targetHtml);
-                })
+                //$("#" + frmId).removeAttr("style");     //formのstyle=display:noneとなっているのを削除
+
+                //TODO：将来的には表示させるときにもアニメーションを加えたい
+                $("#" + frmId).show();
+                // $("#" + frmId).slideUp("slow", function() {
+                //     $("#" + frmId).show();
+                // })
                 toastr["error"]("データベース更新時にエラーが発生しました。", "エラー");
                 location.reload(true);
             }
@@ -93,29 +107,24 @@ function check_dest_submit(t){
 
             //非同期通信リクエスト失敗した時のコード
             //データを復元する(アニメーション付き)
-            toastr["error"]("AJAX_TIMEOUT", "タイムアウト");
-            location.reload(true);
+            //TODO：将来的には表示させるときにもアニメーションを加えたい
+            $("#" + frmId).show();
+            // $("#" + frmId).slideDown("slow", function(){
+            //     $("#" + frmId).show();
+            // });
 
+            if (textStatus == "timeout"){
+                toastr["error"]("AJAX_TIMEOUT", "タイムアウト");
+                alert("サーバーとの通信がタイムアウトしました。ページを更新します");
+                //location.reload(true);
 
-            // $("#" + frmId).slideUp("slow", function() {
-            //     $("#" + frmId).html(targetHtml);
-            // })
+            } else {
+                toastr["error"]("AJAXエラー", "エラー");
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log("error!");
+            }
 
-            // if (textStatus == "timeout"){
-            //     toastr["error"]("AJAX_TIMEOUT", "タイムアウト");
-
-
-            //     alert("サーバーとの通信がタイムアウトしました。ページを更新します");
-            //     location.reload(true);
-
-            // } else {
-            //     toastr["error"]("AJAXエラー", "エラー");
-            //     console.log(jqXHR);
-            //     console.log(textStatus);
-            //     console.log("error!");
-            // }
-            
-            //location.reload(true);
         })
     }
 }

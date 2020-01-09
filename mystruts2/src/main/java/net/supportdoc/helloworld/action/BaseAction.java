@@ -48,8 +48,20 @@ public abstract class BaseAction extends ActionSupport {
         url += "characterEncoding=utf8&useSSL=true&serverTimezone=GMT%2B9:00&rewriteBatchedStatements=true&useServerPrepStmts=true";
 
         conn = DriverManager.getConnection(url, user, password);
+    }
 
+    public String conDetail() {        
 
+        try {
+            connection();
+            return "success";
+        } catch (InstantiationException e) {
+            System.out.println("JDBCのドライバロードに失敗しました。");
+            return "error";
+        } catch (SQLException e) {
+            System.out.println("MySQLへの接続に失敗しました。");
+            return "error";
+        } 
     }
 
     
